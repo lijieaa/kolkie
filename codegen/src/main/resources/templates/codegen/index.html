@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form th:action="@{/code_gen/gen}" th:method="post">
+    <div>
+        <label>po包：</label><input th:type="input" name="poSrc" th:value="com.we.fc.intermediary.entity"/>
+    </div>
+    <div>
+        <label>dao包：</label><input th:type="input" name="daoSrc" th:value="com.we.fc.intermediary.dao"/>
+    </div>
+    <div>
+        <label>mapper路径：</label><input th:type="input" name="mapperSrc" value="/codegen/src/main/resources/"/>
+    </div>
+    <div>
+        <label>mapper包：</label><input th:type="input" name="mapperPkg" value="mappers"/>
+    </div>
+    <div>
+        <label>表名称：</label><input th:type="input" name="tableName" value="intermediary"/>
+    </div>
+    <div>
+        <label>project：</label><input th:type="input" name="project" value="/codegen/src/main/java"/>
+    </div>
+<div><input th:type="submit"/></div>
+</form>
+</body>
+</html>
