@@ -1,14 +1,23 @@
 package com.jianpanmao.codegen.controller;
 
+import freemarker.cache.FileTemplateLoader;
+import freemarker.cache.TemplateLoader;
+import freemarker.core.ParseException;
+import freemarker.template.*;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.*;
+import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.internal.DefaultShellCallback;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成控制器
@@ -108,5 +117,31 @@ public class CodeGenController {
         MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
         myBatisGenerator.generate(null);
         return "ok";
+    }
+
+
+    @RequestMapping("aa")
+    public @ResponseBody String aa() throws Exception{
+        //Configuration configuration =
+        freemarker.template.Configuration configuration = new freemarker.template.Configuration(freemarker.template.Configuration.VERSION_2_3_28);
+        Map root = new HashMap();
+        root.put("str", "hello world!");
+        List data = new ArrayList();
+        data.add("11");
+        data.add("12");
+        data.add("13");
+        root.put("data", data);
+
+        configuration.setDirectoryForTemplateLoading(new File("E:\\java\\kolkie\\src\\main\\resources\\ftl"));
+        configuration.setObjectWrapper(new DefaultObjectWrapper(freemarker.template.Configuration.VERSION_2_3_28));
+        Template temp = configuration.getTemplate("controller.ftl");
+        String fileName = "demo.htm";
+        File file = new File("E:\\java\\kolkie\\src\\main\\resources\\ftl\\" + fileName);
+        FileWriter fw = new FileWriter(file);
+        BufferedWriter bw = new BufferedWriter(fw);
+        temp.process(root, bw);
+        bw.flush();
+        fw.close();
+        return  "ok";
     }
 }
