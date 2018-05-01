@@ -19,6 +19,9 @@ public class Main {
 
     @Test
     public void testHello() throws Exception {
+        String pkg="com.jianpanmao.news";
+        String tableName="news";
+        String javaFileProject="src/main/java";
         Context context = new Context(ModelType.FLAT);
         context.setTargetRuntime("MyBatis3");
         context.setId("test");
@@ -28,7 +31,7 @@ public class Main {
         context.addProperty("endingDelimiter", "`");
         context.addProperty("javaFormatter", "org.mybatis.generator.api.dom.DefaultJavaFormatter");
         context.addProperty("xmlFormatter", "org.mybatis.generator.api.dom.DefaultXmlFormatter");
-        /****************************************²å¼ş***************************************************/
+        /****************************************é”Ÿæ–¤æ‹·é”Ÿï¿½***************************************************/
         PluginConfiguration pluginConfiguration = null;
         pluginConfiguration = new PluginConfiguration();
         pluginConfiguration.setConfigurationType("org.mybatis.generator.plugins.SerializablePlugin");
@@ -38,45 +41,55 @@ public class Main {
         pluginConfiguration.setConfigurationType("org.mybatis.generator.plugins.ToStringPlugin");
         context.addPluginConfiguration(pluginConfiguration);
 
-        /****************************************×¢ÊÍ***************************************************/
+
+        pluginConfiguration = new PluginConfiguration();
+        pluginConfiguration.setConfigurationType("com.jianpanmao.codegen.plugin.BaseMapperGeneratorPlugin");
+        pluginConfiguration.addProperty("pkg", pkg);
+        pluginConfiguration.addProperty("project",javaFileProject);
+        context.addPluginConfiguration(pluginConfiguration);
+
+        /****************************************æ³¨é”Ÿæ–¤æ‹·***************************************************/
         CommentGeneratorConfiguration commentGeneratorConfiguration = new CommentGeneratorConfiguration();
         commentGeneratorConfiguration.addProperty("suppressAllComments", "true");
         commentGeneratorConfiguration.addProperty("suppressDate", "true");
         context.setCommentGeneratorConfiguration(commentGeneratorConfiguration);
-        /****************************************jdbcÁ¬½Ó***************************************************/
+        /****************************************jdbcé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·***************************************************/
         JDBCConnectionConfiguration jdbcConnectionConfiguration = new JDBCConnectionConfiguration();
         jdbcConnectionConfiguration.setDriverClass("com.mysql.jdbc.Driver");
         jdbcConnectionConfiguration.setConnectionURL("jdbc:mysql://47.104.144.238:6666/fc");
         jdbcConnectionConfiguration.setUserId("fc");
         jdbcConnectionConfiguration.setPassword("123456");
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
-        /****************************************ÀàĞÍ×ª»»***************************************************/
+        /****************************************é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è½¬é”Ÿæ–¤æ‹·***************************************************/
         JavaTypeResolverConfiguration javaTypeResolverConfiguration = new JavaTypeResolverConfiguration();
         javaTypeResolverConfiguration.addProperty("forceBigDecimals", "false");
         context.setJavaTypeResolverConfiguration(javaTypeResolverConfiguration);
-        /****************************************Éú³ÉÊµÌåÀàµØÖ·***************************************************/
+        /****************************************é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å®é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè¡—ï¿½***************************************************/
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
-        javaModelGeneratorConfiguration.setTargetPackage("com.we.fc.intermediary.entity");
-        javaModelGeneratorConfiguration.setTargetProject("src/main/java");
+        javaModelGeneratorConfiguration.setTargetPackage(pkg+".entity");
+        javaModelGeneratorConfiguration.setTargetProject(javaFileProject);
+        javaModelGeneratorConfiguration.addProperty("rootClass","com.jianpanmao.common.entity.BaseEntity");
         javaModelGeneratorConfiguration.addProperty("enableSubPackages", "false");
         javaModelGeneratorConfiguration.addProperty("trimStrings", "true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
-       /****************************************Éú³ÉmapxmlÎÄ¼ş***************************************************/
+       /****************************************é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·mapxmlé”Ÿä¾¥ç¡·æ‹·***************************************************/
         SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration=new SqlMapGeneratorConfiguration();
         sqlMapGeneratorConfiguration.setTargetPackage("mapper");
         sqlMapGeneratorConfiguration.setTargetProject("src/main/resources");
         sqlMapGeneratorConfiguration.addProperty("enableSubPackages","false");
         context.setSqlMapGeneratorConfiguration(sqlMapGeneratorConfiguration);
-        /****************************************Éú³Émapxml¶ÔÓ¦client£¬Ò²¾ÍÊÇ½Ó¿Údao***************************************************/
+        /****************************************é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·mapxmlé”Ÿæ–¤æ‹·åº”clienté”Ÿæ–¤æ‹·ä¹Ÿé”Ÿæ–¤æ‹·é”Ÿè§’æ¥åŒ¡æ‹·dao***************************************************/
         JavaClientGeneratorConfiguration javaClientGeneratorConfiguration=new JavaClientGeneratorConfiguration();
-        javaClientGeneratorConfiguration.setTargetPackage("com.we.fc.intermediary.dao");
-        javaClientGeneratorConfiguration.setTargetProject("src/main/java");
-        javaClientGeneratorConfiguration.addProperty("enableSubPackages","false");
+        javaClientGeneratorConfiguration.setTargetPackage(pkg+".dao");
+        javaClientGeneratorConfiguration.setTargetProject(javaFileProject);
+        javaClientGeneratorConfiguration.addProperty("enableSubPackages", "false");
+        //javaClientGeneratorConfiguration.addProperty("rootInterface","com.jianpanmao.common.dao.BaseDao");
         javaClientGeneratorConfiguration.setConfigurationType("XMLMAPPER");
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
-        //table¿ÉÒÔÓĞ¶à¸ö,Ã¿¸öÊı¾İ¿âÖĞµÄ±í¶¼¿ÉÒÔĞ´Ò»¸ötable£¬tableName±íÊ¾ÒªÆ¥ÅäµÄÊı¾İ¿â±í,Ò²¿ÉÒÔÔÚtableNameÊôĞÔÖĞÍ¨¹ıÊ¹ÓÃ%Í¨Åä·ûÀ´Æ¥ÅäËùÓĞÊı¾İ¿â±í,Ö»ÓĞÆ¥ÅäµÄ±í²Å»á×Ô¶¯Éú³ÉÎÄ¼ş
+        //tableé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿå«è®¹æ‹·é”Ÿï¿½,æ¯é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ·åŒ¡æ‹·é”Ÿå«çš„æ†‹æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å†™ä¸€é”Ÿæ–¤æ‹·tableé”Ÿæ–¤æ‹·tableNameé”Ÿæ–¤æ‹·ç¤ºè¦åŒ¹é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è˜é”Ÿæ–¤æ‹·,ä¹Ÿé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·tableNameé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é€šé”Ÿæ–¤æ‹·ä½¿é”Ÿæ–¤æ‹·%é€šé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç‹¡ãƒ¯æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è˜é”Ÿæ–¤æ‹·,åªé”Ÿæ–¤æ‹·åŒ¹é”Ÿæ–¤æ‹·è°‹é”Ÿè„šä¼™æ‹·é”Ÿçš†è®¹æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿä¾¥ç¡·æ‹·
         TableConfiguration tableConfiguration=new TableConfiguration(context);
-        tableConfiguration.setTableName("intermediary");
+        tableConfiguration.setTableName("news");
+        //tableConfiguration.setMapperName(tableConfiguration.getTableName().indexOf(0)"Dao");
         tableConfiguration.setCountByExampleStatementEnabled(true);
         tableConfiguration.setDeleteByExampleStatementEnabled(true);
         tableConfiguration.setDeleteByPrimaryKeyStatementEnabled(true);

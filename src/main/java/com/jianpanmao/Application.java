@@ -1,6 +1,5 @@
 package com.jianpanmao;
 
-import freemarker.template.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
