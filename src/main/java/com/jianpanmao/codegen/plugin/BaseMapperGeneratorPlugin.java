@@ -124,6 +124,10 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
          * 添加import my.mabatis.example.base.MybatisBaseMapper;
          */
         interfaze.addImportedType(imp);
+
+        interfaze.addAnnotation("@Mapper");
+
+        interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
         /**
          * 方法不需要
          */
