@@ -23,6 +23,8 @@ public interface BaseDao<T, E, PK extends Serializable> {
 
     List<T> selectByExample(E example);
 
+    List<T> selectAll(T record);
+
     T selectByPrimaryKey(PK TId);
 
     int updateByExampleSelective(@Param("record") T record, @Param("example") E example);

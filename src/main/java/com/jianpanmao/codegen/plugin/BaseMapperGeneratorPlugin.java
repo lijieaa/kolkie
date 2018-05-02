@@ -8,6 +8,10 @@ import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
+import org.mybatis.generator.api.dom.xml.Attribute;
+import org.mybatis.generator.api.dom.xml.Document;
+import org.mybatis.generator.api.dom.xml.TextElement;
+import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.exception.ShellException;
 
 import java.io.BufferedWriter;
@@ -153,6 +157,29 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
     public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
         //field.addAnnotation("javax.validation.constraints.NotBlank(message=\"用户名不能为空\")");
         return super.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable, modelClassType);
+    }
+
+    @Override
+    public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
+        XmlElement rootElement = document.getRootElement();
+        XmlElement selectAll = new XmlElement("select");
+        Attribute id = new Attribute("id","selectAll");
+        selectAll.addAttribute(id);
+
+        Attribute resultMap = new Attribute("resultMap","BaseResultMap");
+        selectAll.addAttribute(resultMap);
+
+
+        Attribute parameterType = new Attribute("parameterType",introspectedTable.getBaseRecordType());
+        selectAll.addAttribute(parameterType);
+
+
+
+        TextElement textElement=new TextElement("select * from "+introspectedTable.getTableConfiguration().getTableName());
+        selectAll.addElement(textElement);
+
+        rootElement.addElement(selectAll);
+        return super.sqlMapDocumentGenerated(document, introspectedTable);
     }
 
 
