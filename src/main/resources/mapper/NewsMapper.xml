@@ -162,6 +162,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectAll" parameterType="com.jianpanmao.news.entity.News" resultMap="BaseResultMap">
-    select * from news WHERE id=#{id,jdbcType=INTEGER}
+    select * from news
   </select>
 </mapper>
