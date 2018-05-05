@@ -3,7 +3,7 @@ package ${servicePkg}.impl;
 import com.jianpanmao.common.service.impl.BaseServiceImpl;
 import ${modelPkg};
 import ${modelExamplePkg};
-import ${servicePkg}.NewsService;
+import ${servicePkg}.${modelName}Service;
 import org.springframework.stereotype.Service;
 
 @Service

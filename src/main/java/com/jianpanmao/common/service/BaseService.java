@@ -13,6 +13,8 @@ public interface BaseService<T, E, PK extends Serializable>{
 
     int deleteByPrimaryKey(PK TId);
 
+    List<T> selectAll(T record);
+
     int insert(T record);
 
     int insertSelective(T record);

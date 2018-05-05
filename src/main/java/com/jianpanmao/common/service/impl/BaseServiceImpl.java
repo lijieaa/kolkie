@@ -31,6 +31,11 @@ public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements 
     }
 
     @Override
+    public List<T> selectAll(T record) {
+        return dao.selectAll(record);
+    }
+
+    @Override
     public int insert(T record) {
         return dao.insert(record);
     }

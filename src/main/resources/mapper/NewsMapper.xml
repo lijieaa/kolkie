@@ -161,4 +161,7 @@
     set title = #{title,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAll" parameterType="com.jianpanmao.news.entity.News" resultMap="BaseResultMap">
+    select * from news
+  </select>
 </mapper>

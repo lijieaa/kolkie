@@ -20,10 +20,10 @@ public class Main {
     @Test
     public void testHello() throws Exception {
         String pkg="com.jianpanmao.news";
-        String tableName="news";
+        String tableName="project";
         String javaFileProject="src/main/java";
         Context context = new Context(ModelType.FLAT);
-        context.setTargetRuntime("MyBatis3");
+        context.setTargetRuntime("com.jianpanmao.codegen.introspected.MyIntrospectedTableMyBatis3Impl");
         context.setId("test");
         context.addProperty("autoDelimitKeywords", "true");
         context.addProperty("javaFileEncoding", "utf-8");
@@ -71,6 +71,7 @@ public class Main {
         javaModelGeneratorConfiguration.addProperty("rootClass","com.jianpanmao.common.entity.BaseEntity");
         javaModelGeneratorConfiguration.addProperty("enableSubPackages", "false");
         javaModelGeneratorConfiguration.addProperty("trimStrings", "true");
+        javaModelGeneratorConfiguration.addProperty("addRemarkComments", "true");
         context.setJavaModelGeneratorConfiguration(javaModelGeneratorConfiguration);
        /****************************************锟斤拷锟斤拷mapxml锟侥硷拷***************************************************/
         SqlMapGeneratorConfiguration sqlMapGeneratorConfiguration=new SqlMapGeneratorConfiguration();
@@ -88,7 +89,7 @@ public class Main {
         context.setJavaClientGeneratorConfiguration(javaClientGeneratorConfiguration);
         //table锟斤拷锟斤拷锟叫讹拷锟�,每锟斤拷锟斤拷锟捷匡拷锟叫的憋拷锟斤拷锟斤拷写一锟斤拷table锟斤拷tableName锟斤拷示要匹锟斤拷锟斤拷锟斤拷菘锟斤拷,也锟斤拷锟斤拷锟斤拷tableName锟斤拷锟斤拷锟斤拷通锟斤拷使锟斤拷%通锟斤拷锟斤拷锟狡ワ拷锟斤拷锟斤拷锟斤拷锟斤拷菘锟斤拷,只锟斤拷匹锟斤拷谋锟脚伙拷锟皆讹拷锟斤拷锟斤拷锟侥硷拷
         TableConfiguration tableConfiguration=new TableConfiguration(context);
-        tableConfiguration.setTableName("news");
+        tableConfiguration.setTableName(tableName);
         //tableConfiguration.setMapperName(tableConfiguration.getTableName().indexOf(0)"Dao");
         tableConfiguration.setCountByExampleStatementEnabled(true);
         tableConfiguration.setDeleteByExampleStatementEnabled(true);
