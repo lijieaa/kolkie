@@ -2,13 +2,17 @@ package com.jianpanmao.news.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.jianpanmao.common.entity.DataTablesRequestEntity;
+import com.jianpanmao.common.entity.DataTablesResponseEntity;
 import com.jianpanmao.news.entity.News;
 import com.jianpanmao.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("news")
@@ -17,6 +21,12 @@ public class NewsController {
 
     @Autowired
     NewsService newsService;
+
+
+    @RequestMapping(method = RequestMethod.GET,value = "index")
+    public String getNews(){
+        return "news/index";
+    }
 
 
     @RequestMapping(method = RequestMethod.POST)
@@ -54,4 +64,18 @@ public class NewsController {
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
+
+
+    @RequestMapping(method = RequestMethod.POST,value = "datatables")
+    @ResponseBody
+    public Object datatables(@RequestBody DataTablesRequestEntity dataTablesRequestEntity){
+        PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength(), dataTablesRequestEntity.getLength());
+        List<News> list = newsService.selectAll(null);
+        PageInfo pageInfo = new PageInfo(list);
+        DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getSize(),pageInfo.getSize(),pageInfo.getList());
+        return responseEntity;
+    }
+
+
+
 }
