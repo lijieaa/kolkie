@@ -174,24 +174,38 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
 
     @Override
     public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
+        //查询所有
         XmlElement rootElement = document.getRootElement();
         XmlElement selectAll = new XmlElement("select");
         Attribute id = new Attribute("id","selectAll");
         selectAll.addAttribute(id);
-
         Attribute resultMap = new Attribute("resultMap","BaseResultMap");
         selectAll.addAttribute(resultMap);
-
-
         Attribute parameterType = new Attribute("parameterType",introspectedTable.getBaseRecordType());
         selectAll.addAttribute(parameterType);
-
-
-
         TextElement textElement=new TextElement("select * from "+introspectedTable.getTableConfiguration().getTableName());
         selectAll.addElement(textElement);
-
         rootElement.addElement(selectAll);
+
+        //批量删除
+        String batchDeleteSql="delete from news\n" +
+                "    where t_id in\n" +
+                "    <foreach collection=\"array\" index=\"index\" item=\"item\" open=\"(\" separator=\",\" close=\")\">\n" +
+                "              #{item}\n" +
+                "    </foreach>";
+
+
+        XmlElement deleteBatch = new XmlElement("delete");
+        Attribute deleteBatchId = new Attribute("id","deleteBatch");
+        deleteBatch.addAttribute(deleteBatchId);
+        Attribute deleteBatchParameterType = new Attribute("parameterType","java.util.ArrayList");
+        deleteBatch.addAttribute(deleteBatchParameterType);
+        TextElement deleteBatchTextElement=new TextElement(batchDeleteSql);
+        deleteBatch.addElement(deleteBatchTextElement);
+        rootElement.addElement(deleteBatch);
+
+
+
         return super.sqlMapDocumentGenerated(document, introspectedTable);
     }
 

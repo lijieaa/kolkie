@@ -1,6 +1,5 @@
 package com.jianpanmao.common.dao;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
@@ -14,6 +13,8 @@ public interface BaseDao<T, E, PK extends Serializable> {
     int deleteByExample(E example);
 
     int deleteByPrimaryKey(PK TId);
+
+    int deleteBatch(PK ids[]);
 
     int insert(T record);
 

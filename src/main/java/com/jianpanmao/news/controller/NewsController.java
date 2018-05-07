@@ -47,6 +47,15 @@ public class NewsController {
     }
 
 
+
+    @RequestMapping(method = RequestMethod.DELETE,value = "batch")
+    @ResponseBody
+    public Integer batchDelete(@RequestBody Integer[] ids){
+        System.out.println(ids);
+        return newsService.deleteBatch(ids);
+    }
+
+
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     public Integer putNews(@RequestBody News news){

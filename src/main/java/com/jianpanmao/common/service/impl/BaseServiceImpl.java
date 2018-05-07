@@ -26,6 +26,12 @@ public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements 
     }
 
     @Override
+    public int deleteBatch(PK[] ids) {
+
+        return dao.deleteBatch(ids);
+    }
+
+    @Override
     public int deleteByPrimaryKey(PK TId) {
         return dao.deleteByPrimaryKey(TId);
     }

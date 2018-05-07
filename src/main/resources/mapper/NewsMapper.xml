@@ -164,4 +164,11 @@
   <select id="selectAll" parameterType="com.jianpanmao.news.entity.News" resultMap="BaseResultMap">
     select * from news
   </select>
+  <delete id="deleteBatch" parameterType="java.util.ArrayList">
+    delete from news
+    where t_id in
+    <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+              #{item}
+    </foreach>
+  </delete>
 </mapper>

@@ -11,6 +11,8 @@ public interface BaseService<T, E, PK extends Serializable>{
 
     int deleteByExample(E example);
 
+    int deleteBatch(PK ids[]);
+
     int deleteByPrimaryKey(PK TId);
 
     List<T> selectAll(T record);

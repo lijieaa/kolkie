@@ -1070,6 +1070,22 @@
     jQuery(function ($) {
         //initiate dataTables plugin
 
+            $.ajax({
+                url: contextPath+"news/batch",
+                method : "delete" ,
+                data : JSON.stringify([4]),
+                contentType: "application/json",
+                dataType : "json",
+                success : function(data){
+                    console.log(data);
+                },
+                error : function(data){
+                    console.log(data);
+                }
+            })
+
+
+
         var myTable =
                 $('#dynamic-table')
                     //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
