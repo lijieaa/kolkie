@@ -21,48 +21,48 @@ public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements 
     }
 
     @Override
-    public int deleteByExample(E example) {
+    public int removeByExample(E example) {
         return dao.deleteByExample(example);
     }
 
     @Override
-    public int deleteBatch(PK[] ids) {
+    public int removeBatch(PK[] ids) {
 
         return dao.deleteBatch(ids);
     }
 
     @Override
-    public int deleteByPrimaryKey(PK TId) {
+    public int remove(PK TId) {
         return dao.deleteByPrimaryKey(TId);
     }
 
     @Override
-    public List<T> selectAll(T record) {
+    public List<T> getAll(T record) {
         return dao.selectAll(record);
     }
 
     @Override
-    public int insert(T record) {
+    public int add(T record) {
         return dao.insert(record);
     }
 
     @Override
-    public int insertSelective(T record) {
+    public int addSelective(T record) {
         return dao.insertSelective(record);
     }
 
     @Override
-    public List<T> selectByExampleWithBLOBs(E example) {
+    public List<T> getByExampleWithBLOBs(E example) {
         return dao.selectByExampleWithBLOBs(example);
     }
 
     @Override
-    public List<T> selectByExample(E example) {
+    public List<T> getByExample(E example) {
         return dao.selectByExample(example);
     }
 
     @Override
-    public T selectByPrimaryKey(PK TId) {
+    public T get(PK TId) {
         return dao.selectByPrimaryKey(TId);
     }
 
@@ -92,7 +92,7 @@ public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements 
     }
 
     @Override
-    public int updateByPrimaryKey(T record) {
+    public int update(T record) {
         return dao.updateByPrimaryKey(record);
     }
 }

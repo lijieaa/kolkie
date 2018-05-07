@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("news")
@@ -37,13 +35,13 @@ public class NewsController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public Integer addNews(@RequestBody News news){
-        return newsService.insert(news);
+        return newsService.add(news);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     @ResponseBody
     public Integer deleteNews(@RequestParam("id") Integer id){
-        return newsService.deleteByPrimaryKey(id);
+        return newsService.remove(id);
     }
 
 
@@ -51,22 +49,21 @@ public class NewsController {
     @RequestMapping(method = RequestMethod.DELETE,value = "batch")
     @ResponseBody
     public Integer batchDelete(@RequestBody Integer[] ids){
-        System.out.println(ids);
-        return newsService.deleteBatch(ids);
+        return newsService.removeBatch(ids);
     }
 
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
     public Integer putNews(@RequestBody News news){
-        return newsService.updateByPrimaryKey(news);
+        return newsService.update(news);
     }
 
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public News getNews(@RequestParam("id") Integer id){
-        return newsService.selectByPrimaryKey(id);
+        return newsService.get(id);
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "page")
@@ -74,7 +71,7 @@ public class NewsController {
     public PageInfo getList(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                               @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,News news){
         PageHelper.startPage(pageNum, pageSize);
-        List<News> list = newsService.selectAll(news);
+        List<News> list = newsService.getAll(news);
         PageInfo pageInfo = new PageInfo(list);
         return pageInfo;
     }
@@ -84,7 +81,7 @@ public class NewsController {
     @ResponseBody
     public Object datatables(@RequestBody DataTablesRequestEntity dataTablesRequestEntity){
         PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength(), dataTablesRequestEntity.getLength());
-        List<News> list = newsService.selectAll(null);
+        List<News> list = newsService.getAll(null);
         PageInfo pageInfo = new PageInfo(list);
         DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getSize(),pageInfo.getSize(),pageInfo.getList());
         return responseEntity;

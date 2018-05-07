@@ -9,23 +9,23 @@ import java.util.List;
 public interface BaseService<T, E, PK extends Serializable>{
     long countByExample(E example);
 
-    int deleteByExample(E example);
+    int removeByExample(E example);
 
-    int deleteBatch(PK ids[]);
+    int removeBatch(PK ids[]);
 
-    int deleteByPrimaryKey(PK TId);
+    int remove(PK TId);
 
-    List<T> selectAll(T record);
+    List<T> getAll(T record);
 
-    int insert(T record);
+    int add(T record);
 
-    int insertSelective(T record);
+    int addSelective(T record);
 
-    List<T> selectByExampleWithBLOBs(E example);
+    List<T> getByExampleWithBLOBs(E example);
 
-    List<T> selectByExample(E example);
+    List<T> getByExample(E example);
 
-    T selectByPrimaryKey(PK TId);
+    T get(PK TId);
 
     int updateByExampleSelective(@Param("record") T record, @Param("example") E example);
 
@@ -37,6 +37,6 @@ public interface BaseService<T, E, PK extends Serializable>{
 
     int updateByPrimaryKeyWithBLOBs(T record);
 
-    int updateByPrimaryKey(T record);
+    int update(T record);
 
 }
