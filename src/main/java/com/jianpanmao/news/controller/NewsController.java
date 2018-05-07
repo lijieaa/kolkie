@@ -26,9 +26,9 @@ public class NewsController {
         return "news/index_tpl";
     }
 
-    @RequestMapping(method = RequestMethod.GET,value = "add_edit_tpl")
+    @RequestMapping(method = RequestMethod.GET,value = "add_tpl")
     public String getAddEditFormTpl(){
-        return "news/add_edit_tpl";
+        return "news/add_tpl";
     }
 
 
