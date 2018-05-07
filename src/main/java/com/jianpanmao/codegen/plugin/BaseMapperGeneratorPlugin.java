@@ -151,8 +151,23 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
     }
 
     @Override
+    public boolean modelBaseRecordClassGenerated(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
+        topLevelClass.addImportedType("javax.validation.constraints.NotNull");
+        return super.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
+    }
+
+    @Override
     public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
-        //field.addAnnotation("javax.validation.constraints.NotBlank(message=\"用户名不能为空\")");
+        //主键不添加验证注解
+        List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
+        for (IntrospectedColumn primaryKeyColumn : primaryKeyColumns) {
+            if (!field.getName().equals(primaryKeyColumn.getJavaProperty())){
+                if(!introspectedColumn.isNullable()){
+                    field.addAnnotation("@NotNull(message = \""+field.getName()+"不能为空！\")");
+                }
+            }
+        }
+
         field.addJavaDocLine("//"+introspectedColumn.getRemarks());
         return super.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable, modelClassType);
     }

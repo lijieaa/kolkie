@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jianpanmao.news.dao.NewsMapper">
   <resultMap id="BaseResultMap" type="com.jianpanmao.news.entity.News">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="t_id" jdbcType="INTEGER" property="tId" />
     <result column="title" jdbcType="VARCHAR" property="title" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -64,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title
+    t_id, title
   </sql>
   <select id="selectByExample" parameterType="com.jianpanmao.news.entity.NewsExample" resultMap="BaseResultMap">
     select
@@ -84,11 +84,11 @@
     select 
     <include refid="Base_Column_List" />
     from news
-    where id = #{id,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from news
-    where id = #{id,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.jianpanmao.news.entity.NewsExample">
     delete from news
@@ -97,22 +97,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.jianpanmao.news.entity.News">
-    insert into news (id, title)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR})
+    insert into news (t_id, title)
+    values (#{tId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jianpanmao.news.entity.News">
     insert into news
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="tId != null">
+        t_id,
       </if>
       <if test="title != null">
         title,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
+      <if test="tId != null">
+        #{tId,jdbcType=INTEGER},
       </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
@@ -128,8 +128,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update news
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+      <if test="record.tId != null">
+        t_id = #{record.tId,jdbcType=INTEGER},
       </if>
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
@@ -141,7 +141,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update news
-    set id = #{record.id,jdbcType=INTEGER},
+    set t_id = #{record.tId,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -154,12 +154,12 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jianpanmao.news.entity.News">
     update news
     set title = #{title,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+    where t_id = #{tId,jdbcType=INTEGER}
   </update>
   <select id="selectAll" parameterType="com.jianpanmao.news.entity.News" resultMap="BaseResultMap">
     select * from news

@@ -20,7 +20,7 @@ public class Main {
     @Test
     public void testHello() throws Exception {
         String pkg="com.jianpanmao.news";
-        String tableName="project";
+        String tableName="news";
         String javaFileProject="src/main/java";
         Context context = new Context(ModelType.FLAT);
         context.setTargetRuntime("com.jianpanmao.codegen.introspected.MyIntrospectedTableMyBatis3Impl");
