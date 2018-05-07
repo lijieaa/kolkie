@@ -636,7 +636,7 @@
 
                 <ul class="submenu">
                     <li class="active">
-                        <a href="index.html">
+                        <a href="index_tpl.html">
                             <i class="menu-icon fa fa-caret-right"></i>
                             Simple &amp; Dynamic
                         </a>
@@ -1246,12 +1246,12 @@
 
         myTable.on('select', function (e, dt, type, index) {
             if (type === 'row') {
-                $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
+                $(myTable.row(index_tpl).node()).find('input:checkbox').prop('checked', true);
             }
         });
         myTable.on('deselect', function (e, dt, type, index) {
             if (type === 'row') {
-                $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
+                $(myTable.row(index_tpl).node()).find('input:checkbox').prop('checked', false);
             }
         });
 
