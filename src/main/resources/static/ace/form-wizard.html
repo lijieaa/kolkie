@@ -1113,7 +1113,7 @@
 															</div>
 														</form>
 
-														<form class="form-horizontal hide" id="validation-form" method="get">
+														<form class="form-horizontal" id="validation-form" method="get">
 															<div class="form-group">
 																<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">Email Address:</label>
 
@@ -1686,7 +1686,7 @@
 							required: true,
 						}
 					},
-			
+
 					messages: {
 						email: {
 							required: "Please provide a valid email.",
@@ -1701,17 +1701,17 @@
 						gender: "Please choose gender",
 						agree: "Please accept our policy"
 					},
-			
-			
+
+
 					highlight: function (e) {
 						$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
 					},
-			
+
 					success: function (e) {
 						$(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
 						$(e).remove();
 					},
-			
+
 					errorPlacement: function (error, element) {
 						if(element.is('input[type=checkbox]') || element.is('input[type=radio]')) {
 							var controls = element.closest('div[class*="col-"]');
@@ -1726,7 +1726,7 @@
 						}
 						else error.insertAfter(element.parent());
 					},
-			
+
 					submitHandler: function (form) {
 					},
 					invalidHandler: function (form) {
