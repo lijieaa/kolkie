@@ -27,7 +27,7 @@ public class NewsController {
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "add")
-    public String getAddEditFormTpl(){
+    public String getAddFormTpl(){
         return "news/add";
     }
 

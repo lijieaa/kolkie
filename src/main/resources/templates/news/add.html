@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-xs-12">
         <div class="row">
-            <form class="form-horizontal" id="validation-form" method="get">
+            <form class="form-horizontal" id="validation-form" method="post">
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">title:</label>
 
@@ -19,7 +19,7 @@
                 <div class="space-4"></div>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
-                        <button class="btn btn-info" type="button">
+                        <button class="btn btn-info" type="submit" id="submit">
                             <i class="ace-icon fa fa-check bigger-110"></i>
                             提交
                         </button>
@@ -42,8 +42,9 @@
     jQuery(function($) {
 
 
+        console.log("llllllll"+contextPath);
 
-        $('#validation-form').validate({
+        var $form = $('#validation-form').validate({
             errorElement: 'div',
             errorClass: 'help-block',
             focusInvalid: false,
@@ -66,7 +67,7 @@
             },
 
             success: function (e) {
-                $(e).closest('.form-group').removeClass('has-error');//.addClass('has-info');
+                $(e).closest('.form-group').removeClass('has-error');
                 $(e).remove();
             },
 
@@ -75,27 +76,29 @@
             },
 
             submitHandler: function (form) {
+
+                var data = $(form).serializeObject();
+
+                $.ajax({
+                    url: contextPath+"news/",
+                    method: "post",
+                    data: JSON.stringify(data),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                })
+
+
             },
             invalidHandler: function (form) {
+
             }
         });
     })
-
-
-
-    /*$.ajax({
-        url: contextPath + "news/batch",
-        method: "delete",
-        data: JSON.stringify([4]),
-        contentType: "application/json",
-        dataType: "json",
-        success: function (data) {
-            console.log(data);
-        },
-        error: function (data) {
-            console.log(data);
-        }
-    })*/
 </script>
 </body>
 </html>
