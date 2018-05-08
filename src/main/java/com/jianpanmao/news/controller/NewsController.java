@@ -21,14 +21,14 @@ public class NewsController {
     NewsService newsService;
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "index_tpl")
+    @RequestMapping(method = RequestMethod.GET,value = "list")
     public String getIndexTpl(){
-        return "news/index_tpl";
+        return "news/list";
     }
 
-    @RequestMapping(method = RequestMethod.GET,value = "add_tpl")
+    @RequestMapping(method = RequestMethod.GET,value = "add")
     public String getAddEditFormTpl(){
-        return "news/add_tpl";
+        return "news/add";
     }
 
 
