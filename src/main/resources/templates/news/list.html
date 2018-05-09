@@ -33,7 +33,7 @@
                         <div class="pull-left tableTools-container-left">
                             <div class="btn-group">
                                 <a type="button" class="btn" th:href="@{/news/add}">创建</a>
-                                <button type="button" class="btn btn-danger">批量删除</button>
+                                <button type="button" class="btn btn-danger" id="batch-delete">批量删除</button>
                             </div>
                         </div>
                         <div class="pull-right tableTools-container"></div>
@@ -70,8 +70,7 @@
     <script type="text/javascript" th:inline="javascript">
         jQuery(function ($) {
             //initiate dataTables plugin
-            var myTable =
-                    $('#dynamic-table')
+            var myTable =$('#dynamic-table')
                         //.wrap("<div class='dataTables_borderWrap' />")   //if you are applying horizontal scrolling (sScrollX)
                             .DataTable({
                                 bAutoWidth: false,
@@ -89,7 +88,9 @@
                                     $.ajax({
                                         "url": "datatables",
                                         "type": "POST",
-                                        "data": data,
+                                        data:JSON.stringify(data),
+                                        dataType:"json",
+                                        contentType:'application/json',
                                         "success": function (json) {
                                             if (json.status == 200) {
                                                 var data = {};
@@ -208,11 +209,6 @@
             myTable.buttons().container().appendTo($('.tableTools-container'));
 
 
-            $("#xx").click(function () {
-                console.log(31321);
-                myTable.draw();
-            });
-
 
             //style the message box
             var defaultCopyAction = myTable.button(1).action();
@@ -289,33 +285,10 @@
             });
 
 
-            //And for the first simple table, which doesn't have TableTools or dataTables
-            //select/deselect all rows according to table header checkbox
-            var active_class = 'active';
-            $('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function () {
-                var th_checked = this.checked;//checkbox inside "TH" table header
-
-                $(this).closest('table').find('tbody > tr').each(function () {
-                    var row = this;
-                    if (th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
-                    else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
-                });
-            });
-
-            //select/deselect a row when the checkbox is checked/unchecked
-            $('#simple-table').on('click', 'td input[type=checkbox]', function () {
-                var $row = $(this).closest('tr');
-                if ($row.is('.detail-row ')) return;
-                if (this.checked) $row.addClass(active_class);
-                else $row.removeClass(active_class);
-            });
 
 
-            /********************************/
-            //add tooltip for small view action buttons in dropdown menu
             $('[data-rel="tooltip"]').tooltip({placement: tooltip_placement});
 
-            //tooltip placement on right or left
             function tooltip_placement(context, source) {
                 var $source = $(source);
                 var $parent = $source.closest('table')
@@ -323,38 +296,14 @@
                 var w1 = $parent.width();
 
                 var off2 = $source.offset();
-                //var w2 = $source.width();
 
                 if (parseInt(off2.left) < parseInt(off1.left) + parseInt(w1 / 2)) return 'right';
                 return 'left';
             }
 
 
-            /***************/
-            $('.show-details-btn').on('click', function (e) {
-                e.preventDefault();
-                $(this).closest('tr').next().toggleClass('open');
-                $(this).find(ace.vars['.icon']).toggleClass('fa-angle-double-down').toggleClass('fa-angle-double-up');
-            });
-            /***************/
-
-
-            /**
-             //add horizontal scrollbars to a simple table
-             $('#simple-table').css({'width':'2000px', 'max-width': 'none'}).wrap('<div style="width: 1000px;" />').parent().ace_scroll(
-             {
-               horizontal: true,
-               styleClass: 'scroll-top scroll-dark scroll-visible',//show the scrollbars on top(default is bottom)
-               size: 2000,
-               mouseWheelLock: true
-             }
-             ).css('padding-top', '12px');
-             */
-
-
+            //单个删除
             $('#dynamic-table tbody').on( 'click', 'a.delete', function () {
-
-                var id = $(this).attr('data-id');
 
                 bootbox.confirm( {
                     message: "您真的要删除？",
@@ -369,6 +318,7 @@
                         }
                     },
                     callback: function (result) {
+                        var id = $(this).attr('data-id');
                        if(result){
                            $.ajax({
                                url: contextPath+"news/?id="+id,
@@ -387,6 +337,55 @@
                 });
 
             } );
+
+
+            $("#batch-delete").on("click", function () {
+
+
+                bootbox.confirm( {
+                    message: "您真的要删除？",
+                    buttons: {
+                        confirm: {
+                            label: '确定',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: '取消',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if(result){
+
+                            var rows = myTable.rows('.selected').data();
+
+                            var ids=[];
+
+                            for(var i=0;i<rows.length;i++){
+                                ids.push(rows[i].tId);
+                            }
+
+                            console.log(ids);
+
+                            $.ajax({
+                                url: "batch",
+                                method : "delete" ,
+                                data : JSON.stringify(ids),
+                                contentType: "application/json",
+                                dataType : "json",
+                                success: function (data) {
+                                    if(data.status==200){
+                                        myTable.draw();
+                                    }
+                                },
+                                error: function (data) {
+                                    console.log(data);
+                                }
+                            })
+                        }
+                    }
+                });
+            })
         })
     </script>
 </body>
