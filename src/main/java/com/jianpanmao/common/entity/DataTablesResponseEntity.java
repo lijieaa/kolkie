@@ -7,7 +7,7 @@ public class DataTablesResponseEntity<T> {
     public DataTablesResponseEntity() {
     }
 
-    public DataTablesResponseEntity(int draw, int recordsTotal, int recordsFiltered, List<T> data) {
+    public DataTablesResponseEntity(int draw, long recordsTotal, long recordsFiltered, List data) {
         this.draw = draw;
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFiltered;
@@ -16,8 +16,8 @@ public class DataTablesResponseEntity<T> {
     }
 
     private int draw;
-    private int recordsTotal;
-    private int recordsFiltered;
+    private long recordsTotal;
+    private long recordsFiltered;
 
     public int getDraw() {
         return draw;
@@ -27,7 +27,7 @@ public class DataTablesResponseEntity<T> {
         this.draw = draw;
     }
 
-    public int getRecordsTotal() {
+    public long getRecordsTotal() {
         return recordsTotal;
     }
 
@@ -35,7 +35,7 @@ public class DataTablesResponseEntity<T> {
         this.recordsTotal = recordsTotal;
     }
 
-    public int getRecordsFiltered() {
+    public long getRecordsFiltered() {
         return recordsFiltered;
     }
 

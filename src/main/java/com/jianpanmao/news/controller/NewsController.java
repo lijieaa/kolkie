@@ -88,7 +88,7 @@ public class NewsController {
         PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength(), dataTablesRequestEntity.getLength());
         List<News> list = newsService.getAll(null);
         PageInfo pageInfo = new PageInfo(list);
-        DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getSize(),pageInfo.getSize(),pageInfo.getList());
+        DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getTotal(),pageInfo.getTotal(),pageInfo.getList());
         return responseEntity;
     }
 
