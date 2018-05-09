@@ -31,6 +31,11 @@ public class NewsController {
         return "news/add";
     }
 
+    @RequestMapping(method = RequestMethod.GET,value = "edit")
+    public String getEditFormTpl(){
+        return "news/edit";
+    }
+
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody

@@ -1,36 +1,3 @@
-$(document).ajaxSend(function (event, xhr, settings) {
-
-    console.log("ajaxSend",settings);
-
-    if(settings.method!="get"){
-
-        //settings.url=contextPath+"/"+settings.url;
-
-       // xhr.setRequestHeader("Content-Type","application/json");
-
-        settings.contentType="application/json";
-
-        //settings.data=JSON.stringify(settings.data);
-
-        xhr.ajaxOptions=settings;
-
-
-        console.log("==========>",settings);
-    }
-
-
-
-}).ajaxSuccess(function (event, xhr, settings) {
-
-    console.log("ajaxSuccess", settings);
-
-}).ajaxComplete(function (event, xhr, settings) {
-
-    console.log("ajaxComplete",settings);
-
-})
-
-
 $.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
@@ -46,9 +13,7 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
-
-/*
- $.extend($.validator.messages, {
+ /*$.extend($.validator.messages, {
  required: "必选字段",
  remote: "请修正该字段",
  email: "请输入正确格式的电子邮件",

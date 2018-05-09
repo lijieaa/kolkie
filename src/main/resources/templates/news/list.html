@@ -87,12 +87,9 @@
                                 "ajax": function (data, callback, settings) {
                                     console.log("----------------", data);
                                     $.ajax({
-                                        "url": contextPath + "news/datatables",
+                                        "url": contextPath+"news/datatables",
                                         "type": "POST",
-                                        "cache": false,  //禁用缓存
-                                        "dataType": "json",
-                                        "data": JSON.stringify(data),
-                                        "contentType": "application/json",
+                                        "data": data,
                                         "success": function (json) {
                                             if (json.status == 200) {
                                                 var data = {};

@@ -54,6 +54,32 @@
 
     <script th:inline="javascript">
         var contextPath = /*[[@{/}]]*/;
+        $.ajaxSetup({
+            timeout: 3000,
+            dataType: 'json',
+            processData: false,
+            //请求成功后触发
+            success: function (data) {
+                console.log("success");
+            },
+            //请求失败遇到异常触发
+            error: function (xhr,status, e) {
+                console.log("error");
+            },
+            //完成请求后触发。即在success或error触发后触发
+            complete: function (xhr, status) {
+                console.log("complete");
+            },
+            //发送请求前触发
+            beforeSend: function (xhr,ajax) {
+                //可以设置自定义标头
+                if(ajax.type.toLowerCase()!="get"){
+                    xhr.setRequestHeader('Content-Type', 'application/json;charset=utf-8');
+                    ajax.data=JSON.stringify(ajax.data);
+                    ajax.dataType="json";
+                }
+            },
+        })
     </script>
 
     <script th:src="@{/js/globe.js}"></script>
@@ -1096,6 +1122,6 @@
 <!-- ace scripts -->
 <script th:src="@{/ace/assets/js/ace-elements.min.js}"></script>
 <script th:src="@{/ace/assets/js/ace.min.js}"></script>
-
+<script th:src="@{/plugins/autofill/jquery.formautofill.min.js}"></script>
 </body>
 </html>
