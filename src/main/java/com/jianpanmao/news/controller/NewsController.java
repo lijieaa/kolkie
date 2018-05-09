@@ -85,7 +85,7 @@ public class NewsController {
     @RequestMapping(method = RequestMethod.POST,value = "datatables")
     @ResponseBody
     public Object datatables(@RequestBody DataTablesRequestEntity dataTablesRequestEntity){
-        PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength(), dataTablesRequestEntity.getLength());
+        PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength()+1, dataTablesRequestEntity.getLength());
         List<News> list = newsService.getAll(null);
         PageInfo pageInfo = new PageInfo(list);
         DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getTotal(),pageInfo.getTotal(),pageInfo.getList());

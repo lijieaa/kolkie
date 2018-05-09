@@ -76,7 +76,7 @@
                             .DataTable({
                                 bAutoWidth: false,
                                 "language": {
-                                    "url": contextPath+"/ace/assets/js/zh_CN.json"
+                                    "url": contextPath+"ace/assets/js/zh_CN.json"
                                 },
                                 'order': [],
                                 "ordering": true,
@@ -101,7 +101,7 @@
                                             }
                                         },
                                         "error": function (XMLHttpRequest, textStatus, errorThrown) {
-                                            alert("查询失败");
+                                            console.log(errorThrown);
                                         }
                                     });
                                 },
@@ -146,7 +146,16 @@
                                         "orderable": false,
                                         data: null,
                                         "render": function (data, type, row) {
-                                            return '<div class="hidden-sm hidden-xs action-buttons"><a class="blue" href="#"><i class="ace-icon fa fa-search-plus bigger-130"></i></a><a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a><a class="red" href="#"><i class="ace-icon fa fa-trash-o bigger-130"></i></a></div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button><ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close"><li><a href="#" class="tooltip-info" data-rel="tooltip" title="View"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li><li><a href="#" class="tooltip-success" data-rel="tooltip" title="Edit"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a></li><li><a href="#" class="tooltip-error" data-rel="tooltip" title="Delete"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li></ul></div></div>';
+                                            return '<div class="hidden-sm hidden-xs action-buttons">' +
+                                                    '<a class="blue" href="#"><i class="ace-icon fa fa-search-plus bigger-130"></i></a>' +
+                                                    '<a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>' +
+                                                    '<a class="red delete" data-id="'+row.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>' +
+                                                    '</div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button><ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close"><li>' +
+                                                    '<a href="#" class="tooltip-info" data-rel="tooltip" title="查看"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li><li>' +
+                                                    '<a href="#" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>' +
+                                                    '</li><li>' +
+                                                    '<a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+row.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>' +
+                                                    '</li></ul></div></div>';
                                         }
 
                                     }
@@ -163,33 +172,33 @@
                 buttons: [
                     {
                         "extend": "colvis",
-                        "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>Show/hide columns</span>",
+                        "text": "<i class='fa fa-search bigger-110 blue'></i> <span class='hidden'>显示/隐藏 列</span>",
                         "className": "btn btn-white btn-primary btn-bold",
                         columns: ':not(:first):not(:last)'
                     },
                     {
                         "extend": "copy",
-                        "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>Copy to clipboard</span>",
+                        "text": "<i class='fa fa-copy bigger-110 pink'></i> <span class='hidden'>拷贝到剪切板</span>",
                         "className": "btn btn-white btn-primary btn-bold"
                     },
                     {
                         "extend": "csv",
-                        "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>Export to CSV</span>",
+                        "text": "<i class='fa fa-database bigger-110 orange'></i> <span class='hidden'>导出CVS</span>",
                         "className": "btn btn-white btn-primary btn-bold"
                     },
                     {
                         "extend": "excel",
-                        "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>Export to Excel</span>",
+                        "text": "<i class='fa fa-file-excel-o bigger-110 green'></i> <span class='hidden'>导出Excel</span>",
                         "className": "btn btn-white btn-primary btn-bold"
                     },
                     {
                         "extend": "pdf",
-                        "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>Export to PDF</span>",
+                        "text": "<i class='fa fa-file-pdf-o bigger-110 red'></i> <span class='hidden'>导出PDF</span>",
                         "className": "btn btn-white btn-primary btn-bold"
                     },
                     {
                         "extend": "print",
-                        "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>Print</span>",
+                        "text": "<i class='fa fa-print bigger-110 grey'></i> <span class='hidden'>打印</span>",
                         "className": "btn btn-white btn-primary btn-bold",
                         autoPrint: false,
                         message: 'This print was produced using the Print button for DataTables'
@@ -240,12 +249,12 @@
 
             myTable.on('select', function (e, dt, type, index) {
                 if (type === 'row') {
-                    $(myTable.row(index_tpl).node()).find('input:checkbox').prop('checked', true);
+                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', true);
                 }
             });
             myTable.on('deselect', function (e, dt, type, index) {
                 if (type === 'row') {
-                    $(myTable.row(index_tpl).node()).find('input:checkbox').prop('checked', false);
+                    $(myTable.row(index).node()).find('input:checkbox').prop('checked', false);
                 }
             });
 
@@ -343,6 +352,41 @@
              */
 
 
+            $('#dynamic-table tbody').on( 'click', 'a.delete', function () {
+
+                var id = $(this).attr('data-id');
+
+                bootbox.confirm( {
+                    message: "您真的要删除？",
+                    buttons: {
+                        confirm: {
+                            label: '确定',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: '取消',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                       if(result){
+                           $.ajax({
+                               url: contextPath+"news/?id="+id,
+                               method: "delete",
+                               success: function (data) {
+                                   if(data.status==200){
+                                       myTable.draw();
+                                   }
+                               },
+                               error: function (data) {
+                                   console.log(data);
+                               }
+                           })
+                       }
+                    }
+                });
+
+            } );
         })
     </script>
 </body>
