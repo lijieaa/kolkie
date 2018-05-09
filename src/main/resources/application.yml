@@ -17,6 +17,8 @@ mybatis:
 
 server:
  port: 8081
+ servlet:
+  contextPath: /
 
 pagehelper:
   helper-dialect: mysql
