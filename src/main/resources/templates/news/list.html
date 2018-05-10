@@ -341,7 +341,12 @@
 
             $("#batch-delete").on("click", function () {
 
+                var rows = myTable.rows('.selected').data();
 
+                if(rows.length<=0){
+                    bootbox.alert("请选择你要删除的对象!");
+                    return;
+                }
                 bootbox.confirm( {
                     message: "您真的要删除？",
                     buttons: {
