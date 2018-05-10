@@ -8,6 +8,7 @@ import com.jianpanmao.news.entity.News;
 import com.jianpanmao.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,18 +23,26 @@ public class NewsController {
 
 
     @RequestMapping(method = RequestMethod.GET,value = "list")
-    public String getIndexTpl(){
+    public String list(){
         return "news/list";
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "add")
-    public String getAddFormTpl(){
+    public String add(){
         return "news/add";
     }
 
     @RequestMapping(method = RequestMethod.GET,value = "edit")
-    public String getEditFormTpl(){
+    public String edit(@RequestParam("id") Integer id, Model model){
+        model.addAttribute("id",id);
         return "news/edit";
+    }
+
+
+    @RequestMapping(method = RequestMethod.GET,value = "detail")
+    public String detail(@RequestParam("id") Integer id, Model model){
+        model.addAttribute("id",id);
+        return "news/detail";
     }
 
 

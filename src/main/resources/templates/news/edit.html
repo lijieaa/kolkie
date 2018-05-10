@@ -38,17 +38,15 @@
 <script type="text/javascript" th:inline="javascript">
 
     jQuery(function($) {
-
-
+        var id=[[${id}]]
         $.ajax({
-            url: contextPath+"news",
+            url: contextPath+"news?id="+id,
             method: "get",
-            data:"id="+1,
             success: function (data) {
                 $('#form').autofill(data.content);
             },
             error: function (data) {
-                console.log(data);
+                alert("查询数据出错！");
             }
         })
 
@@ -93,9 +91,11 @@
                 $.ajax({
                     url: contextPath+"news/",
                     method: "put",
-                    data: data,
+                    data : JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType : "json",
                     success: function (data) {
-                        location.href="list"
+                        location.href=contextPath+"news/list";
                     },
                     error: function (data) {
                         console.log(data);

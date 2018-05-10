@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<body layout:fragment="content">
+<div class="row">
+
+</div>
+<script type="text/javascript" th:inline="javascript">
+
+    jQuery(function($) {
+        var id=[[${id}]]
+        $.ajax({
+            url: contextPath+"news?id="+id,
+            method: "get",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                alert("查询数据出错！");
+            }
+        })
+
+    })
+</script>
+</body>
+</html>
+</body>
+</html>

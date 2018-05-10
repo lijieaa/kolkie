@@ -79,9 +79,11 @@
                 $.ajax({
                     url: contextPath+"news/",
                     method: "post",
-                    data: data,
+                    data : JSON.stringify(data),
+                    contentType: "application/json",
+                    dataType : "json",
                     success: function (data) {
-                       location.href="list";
+                       location.href=contextPath+"news/list";
                     },
                     error: function (data) {
                         console.log(data);
