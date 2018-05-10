@@ -91,13 +91,16 @@ public class NewsController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST,value = "datatables")
+    @RequestMapping(method = RequestMethod.GET,value = "datatables")
     @ResponseBody
-    public Object datatables(@RequestBody DataTablesRequestEntity dataTablesRequestEntity){
-        PageHelper.startPage(dataTablesRequestEntity.getStart()/ dataTablesRequestEntity.getLength()+1, dataTablesRequestEntity.getLength());
-        List<News> list = newsService.getAll(null);
+    public Object datatables(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                             @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+                             @RequestParam(value = "draw",required = true) Integer draw,
+                             News news){
+        PageHelper.startPage(pageNum,pageSize);
+        List<News> list = newsService.getAll(news);
         PageInfo pageInfo = new PageInfo(list);
-        DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(dataTablesRequestEntity.getDraw(),pageInfo.getTotal(),pageInfo.getTotal(),pageInfo.getList());
+        DataTablesResponseEntity<News> responseEntity=new DataTablesResponseEntity(draw,pageInfo.getTotal(),pageInfo.getTotal(),pageInfo.getList());
         return responseEntity;
     }
 
