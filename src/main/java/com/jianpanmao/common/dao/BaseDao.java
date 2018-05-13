@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public interface BaseDao<T, E, PK extends Serializable> {
+public interface BaseDao<T, E, D,PK extends Serializable> {
 
     long countByExample(E example);
 
@@ -39,4 +39,7 @@ public interface BaseDao<T, E, PK extends Serializable> {
     int updateByPrimaryKeyWithBLOBs(T record);
 
     int updateByPrimaryKey(T record);
+
+
+    List<T> selectByDto(D dto);
 }

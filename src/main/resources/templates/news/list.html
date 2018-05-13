@@ -110,9 +110,21 @@
                                     var pageNum=data.start/data.length+1;
                                     var pageSize=data.length;
                                     var draw=data.draw;
-                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw;
+
+                                    var orderByClause="";
+
+                                    for(var i=0;i<data.order.length;i++){
+                                        var obj=data.order[i];
+                                        var col=obj.column;
+                                        var dir=obj.dir;
+                                        var pro = data.columns[col].data;
+                                        orderByClause+=pro+" "+dir+",";
+                                    }
+                                    orderByClause = orderByClause.substr(0,orderByClause.lastIndexOf(","));
+
+                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&order="+orderByClause;
                                     $.ajax({
-                                        "url": "datatables"+param,
+                                        "url": contextPath+"api/news/page"+param,
                                         "type": "get",
                                         dataType:"json",
                                         contentType:'application/json',
@@ -345,7 +357,7 @@
 
                        if(result){
                            $.ajax({
-                               url: contextPath+"news/?id="+id,
+                               url: contextPath+"api/news/?id="+id,
                                method: "delete",
                                success: function (data) {
                                    if(data.status==200){
@@ -397,7 +409,7 @@
                             console.log(ids);
 
                             $.ajax({
-                                url: "batch",
+                                url: contextPath+"api/news/batch",
                                 method : "delete" ,
                                 data : JSON.stringify(ids),
                                 contentType: "application/json",

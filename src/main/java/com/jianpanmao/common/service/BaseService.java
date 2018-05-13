@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.io.Serializable;
 import java.util.List;
 
-public interface BaseService<T, E, PK extends Serializable>{
+public interface BaseService<T, E, D,PK extends Serializable>{
     long countByExample(E example);
 
     int removeByExample(E example);
@@ -39,4 +39,5 @@ public interface BaseService<T, E, PK extends Serializable>{
 
     int update(T record);
 
+    List<T> getByDto(D dto);
 }

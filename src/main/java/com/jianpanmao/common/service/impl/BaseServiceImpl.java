@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.util.List;
 
 
-public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements BaseService<T, E, PK>{
+public abstract class BaseServiceImpl<T, E, D,PK extends Serializable> implements BaseService<T, E,D, PK>{
 
     @Autowired
-    private BaseDao<T, E, PK> dao;
+    private BaseDao<T, E, D,PK> dao;
 
     @Override
     public long countByExample(E example) {
@@ -95,4 +95,10 @@ public abstract class BaseServiceImpl<T, E, PK extends Serializable> implements 
     public int update(T record) {
         return dao.updateByPrimaryKey(record);
     }
+
+    @Override
+    public List<T> getByDto(D dto) {
+        return dao.selectByDto(dto);
+    }
+
 }

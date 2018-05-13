@@ -78,7 +78,7 @@
                 var data = $(form).serializeObject();
 
                 $.ajax({
-                    url: contextPath+"news/",
+                    url: contextPath+"api/news/",
                     method: "post",
                     data : JSON.stringify(data),
                     contentType: "application/json",

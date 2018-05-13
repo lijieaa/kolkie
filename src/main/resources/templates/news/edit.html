@@ -40,7 +40,7 @@
     jQuery(function($) {
         var id=[[${id}]]
         $.ajax({
-            url: contextPath+"news?id="+id,
+            url: contextPath+"api/news?id="+id,
             method: "get",
             success: function (data) {
                 $('#form').autofill(data.content);
@@ -89,7 +89,7 @@
                 var data = $(form).serializeObject();
 
                 $.ajax({
-                    url: contextPath+"news/",
+                    url: contextPath+"api/news/",
                     method: "put",
                     data : JSON.stringify(data),
                     contentType: "application/json",

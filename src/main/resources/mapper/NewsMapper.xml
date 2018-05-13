@@ -171,4 +171,16 @@
               #{item}
     </foreach>
   </delete>
+  <select id="selectByDto" parameterType="com.jianpanmao.news.dto.NewsDto" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" /> from news where 1=1
+    <if test="null">
+      and t_id=#{tId}
+    </if>
+    <if test="title!=null and '' neq title">
+      and title=#{title}
+    </if>
+    <if test="order!=null and order neq ''">
+      order by ${order}
+    </if>
+  </select>
 </mapper>
