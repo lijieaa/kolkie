@@ -134,7 +134,7 @@ public class CodeGenController {
 
         configuration.setDirectoryForTemplateLoading(new File("E:\\java\\kolkie\\src\\main\\resources\\ftl"));
         configuration.setObjectWrapper(new DefaultObjectWrapper(freemarker.template.Configuration.VERSION_2_3_28));
-        Template temp = configuration.getTemplate("controller.ftl");
+        Template temp = configuration.getTemplate("rest_controller.ftl");
         String fileName = "demo.htm";
         File file = new File("E:\\java\\kolkie\\src\\main\\resources\\ftl\\" + fileName);
         FileWriter fw = new FileWriter(file);

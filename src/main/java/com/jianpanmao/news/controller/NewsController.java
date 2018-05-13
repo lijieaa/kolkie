@@ -1,51 +1,41 @@
 package com.jianpanmao.news.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.jianpanmao.common.annotation.OrderParser;
-import com.jianpanmao.common.entity.DataTablesRequestEntity;
-import com.jianpanmao.common.entity.DataTablesResponseEntity;
-import com.jianpanmao.news.dto.NewsDto;
-import com.jianpanmao.news.entity.News;
 import com.jianpanmao.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("news")
 public class NewsController {
 
 
-    @Autowired
-    NewsService newsService;
+@Autowired
+NewsService newsService;
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "list")
-    public String list(){
-        return "news/list";
-    }
+@RequestMapping(method = RequestMethod.GET,value = "list")
+public String list(){
+return "news/list";
+}
 
-    @RequestMapping(method = RequestMethod.GET,value = "add")
-    public String add(){
-        return "news/add";
-    }
+@RequestMapping(method = RequestMethod.GET,value = "add")
+public String add(){
+return "news/add";
+}
 
-    @RequestMapping(method = RequestMethod.GET,value = "edit")
-    public String edit(@RequestParam("id") Integer id, Model model){
-        model.addAttribute("id",id);
-        return "news/edit";
-    }
+@RequestMapping(method = RequestMethod.GET,value = "edit")
+public String edit(@RequestParam("id") Integer id, Model model){
+model.addAttribute("id",id);
+return "news/edit";
+}
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "detail")
-    public String detail(@RequestParam("id") Integer id, Model model){
-        model.addAttribute("id",id);
-        return "news/detail";
-    }
+@RequestMapping(method = RequestMethod.GET,value = "detail")
+public String detail(@RequestParam("id") Integer id, Model model){
+model.addAttribute("id",id);
+return "news/detail";
+}
 }

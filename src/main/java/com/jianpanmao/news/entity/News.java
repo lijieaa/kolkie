@@ -2,6 +2,7 @@ package com.jianpanmao.news.entity;
 
 import com.jianpanmao.common.entity.BaseEntity;
 import java.io.Serializable;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 public class News extends BaseEntity implements Serializable {

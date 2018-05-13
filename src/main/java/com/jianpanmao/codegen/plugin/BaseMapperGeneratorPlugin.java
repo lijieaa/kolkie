@@ -84,29 +84,61 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             configuration.setDirectoryForTemplateLoading(new File("src\\main\\resources\\ftl"));
             configuration.setObjectWrapper(new DefaultObjectWrapper(freemarker.template.Configuration.VERSION_2_3_28));
 
+            Template template=null;
+            String filename=null;
+            File directory=null;
+            File targetFile=null;
+            FileWriter fw=null;
+            BufferedWriter bw=null;
 
-            Template temp = configuration.getTemplate("service.ftl");
-            String servicefileName = modelName + "Service.java";
-            File directory = this.getDirectory(project, servicePkg);
+            template = configuration.getTemplate("service.ftl");
+            filename = modelName + "Service.java";
+            directory = this.getDirectory(project, servicePkg);
             System.out.println(directory);
-            File targetFile = new File(directory, servicefileName);
-            FileWriter fw = new FileWriter(targetFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            temp.process(root, bw);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
             bw.flush();
             fw.close();
 
 
-            Template serviceImpltemplate = configuration.getTemplate("service_impl.ftl");
-            String serviceImplfileName = modelName + "ServiceImpl.java";
-            File serviceImplDirectory = this.getDirectory(project, servicePkg + ".impl");
+            template = configuration.getTemplate("service_impl.ftl");
+            filename = modelName + "ServiceImpl.java";
+            directory = this.getDirectory(project, servicePkg + ".impl");
             System.out.println(directory);
-            File serviceImplTargetFile = new File(serviceImplDirectory, serviceImplfileName);
-            FileWriter serviceImplFw = new FileWriter(serviceImplTargetFile);
-            BufferedWriter serviceImplbw = new BufferedWriter(serviceImplFw);
-            serviceImpltemplate.process(root, serviceImplbw);
-            serviceImplbw.flush();
-            serviceImplFw.close();
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
+
+
+            template = configuration.getTemplate("rest_controller.ftl");
+            filename = modelName + "RestController.java";
+            directory = this.getDirectory(project, pkg + ".controller");
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
+
+            template = configuration.getTemplate("controller.ftl");
+            filename = modelName + "Controller.java";
+            directory = this.getDirectory(project, pkg + ".controller");
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
 
 
         } catch (Exception e) {
