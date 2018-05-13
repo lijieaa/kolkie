@@ -5,17 +5,24 @@
     <div class="col-xs-12">
         <div class="row">
             <form class="form-horizontal" id="form" method="post">
+<#list cols?keys as key>
 
-                <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">title:</label>
-                    <input type="hidden" name="tId" id="tId">
-                    <div class="col-xs-12 col-sm-9">
-                        <div class="clearfix">
-                            <input type="text" name="title" id="title" class="col-xs-12 col-sm-6" />
-                        </div>
-                    </div>
+    <#if (key?index_of('primaryKey'))!=-1>
+        <#assign index=key?index_of('primaryKey')>
+    <input type="hidden" name="${key?substring(0,index-1)}"  id="${key?substring(0,index-1)}">
+
+    <#else>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
+            <div class="col-xs-12 col-sm-9">
+                <div class="clearfix">
+                    <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />
                 </div>
+            </div>
+        </div>
+    </#if>
 
+</#list>
                 <div class="space-4"></div>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
@@ -40,15 +47,15 @@
 <script type="text/javascript" th:inline="javascript">
 
     jQuery(function($) {
-        var id=[[${id}]]
+        var id=[[${r"${id}"}]];
         $.ajax({
-            url: contextPath+"api/news?id="+id,
+            url: contextPath+"api/${modelName?lower_case}?id="+id,
             method: "get",
             success: function (data) {
                 $('#form').autofill(data.content);
             },
             error: function (data) {
-                alert("查询数据出错！");
+                console.log("查询数据出错！");
             }
         })
 
@@ -61,18 +68,15 @@
             focusInvalid: false,
             ignore: "",
             rules: {
-                title: {
+<#list cols?keys as key>
+    <#if (key?index_of('primaryKey'))==-1>
+                ${key}: {
                     required: true
-                }
+                },
+    </#if>
+</#list>       
             },
-
-            messages: {
-                title: {
-                    required: "title不能为空！",
-                }
-            },
-
-
+            
             highlight: function (e) {
                 $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
             },
@@ -91,13 +95,13 @@
                 var data = $(form).serializeObject();
 
                 $.ajax({
-                    url: contextPath+"api/news/",
+                    url: contextPath+"api/${modelName?lower_case}/",
                     method: "put",
                     data : JSON.stringify(data),
                     contentType: "application/json",
                     dataType : "json",
                     success: function (data) {
-                        location.href=contextPath+"news/list";
+                        location.href=contextPath+"${modelName?lower_case}/list";
                     },
                     error: function (data) {
                         console.log(data);
@@ -112,7 +116,5 @@
         });
     })
 </script>
-</body>
-</html>
 </body>
 </html>

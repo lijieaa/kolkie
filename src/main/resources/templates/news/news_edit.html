@@ -5,15 +5,20 @@
     <div class="col-xs-12">
         <div class="row">
             <form class="form-horizontal" id="form" method="post">
-                <div class="form-group">
-                    <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">title:</label>
-                    <input type="hidden" name="tId" id="tId">
-                    <div class="col-xs-12 col-sm-9">
-                        <div class="clearfix">
-                            <input type="text" name="title" id="title" class="col-xs-12 col-sm-6" />
-                        </div>
-                    </div>
+
+    <input type="hidden" name="tId"  id="tId">
+
+
+
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">title:</label>
+            <div class="col-xs-12 col-sm-9">
+                <div class="clearfix">
+                    <input type="text" name="title" id="title" class="col-xs-12 col-sm-6" />
                 </div>
+            </div>
+        </div>
+
                 <div class="space-4"></div>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
@@ -38,7 +43,7 @@
 <script type="text/javascript" th:inline="javascript">
 
     jQuery(function($) {
-        var id=[[${id}]]
+        var id=[[${id}]];
         $.ajax({
             url: contextPath+"api/news?id="+id,
             method: "get",
@@ -46,7 +51,7 @@
                 $('#form').autofill(data.content);
             },
             error: function (data) {
-                alert("查询数据出错！");
+                console.log("查询数据出错！");
             }
         })
 
@@ -61,16 +66,9 @@
             rules: {
                 title: {
                     required: true
-                }
+                },
             },
-
-            messages: {
-                title: {
-                    required: "title不能为空！",
-                }
-            },
-
-
+            
             highlight: function (e) {
                 $(e).closest('.form-group').removeClass('has-info').addClass('has-error');
             },
@@ -110,7 +108,5 @@
         });
     })
 </script>
-</body>
-</html>
 </body>
 </html>

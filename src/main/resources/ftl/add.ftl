@@ -6,7 +6,8 @@
     <div class="col-xs-12">
         <div class="row">
             <form class="form-horizontal" id="validation-form" method="post">
-<#list addcols?keys as key>
+<#list cols?keys as key>
+    <#if (key?index_of('primaryKey'))==-1>
                 <div class="form-group">
                     <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
                     <div class="col-xs-12 col-sm-9">
@@ -15,6 +16,7 @@
                         </div>
                     </div>
                 </div>
+    </#if>
 </#list>
 
                 <div class="space-4"></div>
@@ -48,10 +50,12 @@
             focusInvalid: false,
             ignore: "",
             rules: {
-<#list addcols?keys as key>
+<#list cols?keys as key>
+    <#if (key?index_of('primaryKey'))==-1>
                 ${key}: {
                     required: true
                 },
+    </#if>
 </#list>
             },
 
@@ -94,7 +98,5 @@
         });
     })
 </script>
-</body>
-</html>
 </body>
 </html>

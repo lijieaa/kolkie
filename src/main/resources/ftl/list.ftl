@@ -21,14 +21,27 @@
                             <div class="widget-main">
                                 <form class="form-horizontal" id="search-form">
 <#list cols?keys as key>
-                                    <div class="form-group">
-                                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
-                                        <div class="col-xs-12 col-sm-9">
-                                            <div class="clearfix">
-                                                <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />
-                                            </div>
-                                        </div>
-                                    </div>
+    <#if (key?index_of('primaryKey'))!=-1>
+        <#assign index=key?index_of('primaryKey')>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key?substring(0,index-1)}:</label>
+            <div class="col-xs-12 col-sm-9">
+                <div class="clearfix">
+                    <input type="text" name="${key?substring(0,index-1)}" id="${key?substring(0,index-1)}" class="col-xs-12 col-sm-6" />
+                </div>
+            </div>
+        </div>
+    <#else>
+        <div class="form-group">
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
+            <div class="col-xs-12 col-sm-9">
+                <div class="clearfix">
+                    <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />
+                </div>
+            </div>
+        </div>
+    </#if>
+
 </#list>
 
                                     <div class="clearfix form-actions">
@@ -73,7 +86,13 @@
                                     </label>
                                 </th>
 <#list cols?keys as key>
-                                <th>${key}</th>
+    <#if (key?index_of('primaryKey'))!=-1>
+        <#assign index=key?index_of('primaryKey')>
+        <th>${key?substring(0,index-1)}</th>
+    <#else>
+        <th>${key}</th>
+    </#if>
+
 </#list>
                                 <th></th>
                             </tr>
@@ -146,7 +165,12 @@
                                 "columns": [
                                     {"data": null},
 <#list cols?keys as key>
-                                    {"data": "${key}"},
+    <#if (key?index_of('primaryKey'))!=-1>
+        <#assign index=key?index_of('primaryKey')>
+                                    {"data": "${key?substring(0,index-1)}"},
+    <#else >
+        {"data": "${key}"},
+    </#if>
 </#list>
                                     {"data": null}
                                 ],

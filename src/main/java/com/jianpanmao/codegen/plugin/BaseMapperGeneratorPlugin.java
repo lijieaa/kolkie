@@ -76,6 +76,10 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
 
 
 
+        List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
+
+
+
         Map root = new HashMap();
         root.put("pkg", pkg);
         root.put("servicePkg", servicePkg);
@@ -146,8 +150,15 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             Map cols=new HashMap<>();
             List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
             for (IntrospectedColumn column : columns) {
-                cols.put(column.getJavaProperty(),column.getLength());
+                for (IntrospectedColumn primaryKeyColumn : primaryKeyColumns) {
+                    if (column.getActualColumnName().equals(primaryKeyColumn.getActualColumnName())){
+                        cols.put(column.getJavaProperty()+"_primaryKey",column.getLength());
+                    }else{
+                        cols.put(column.getJavaProperty(),column.getLength());
+                    }
+                }
             }
+
             root.put("cols",cols);
 
 
@@ -163,16 +174,33 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             fw.close();
 
 
-            Map addcols=new HashMap<>();
-            List<IntrospectedColumn> baseColumns = introspectedTable.getBaseColumns();
-            for (IntrospectedColumn column : baseColumns) {
-                addcols.put(column.getJavaProperty(),column.getLength());
-            }
-            root.put("addcols",addcols);
-
 
             template = configuration.getTemplate("add.ftl");
             filename = modelName.toLowerCase()+"_add.html";
+            directory = this.getDirectory(resource, "templates."+modelName.toLowerCase());
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
+
+            template = configuration.getTemplate("edit.ftl");
+            filename = modelName.toLowerCase()+"_edit.html";
+            directory = this.getDirectory(resource, "templates."+modelName.toLowerCase());
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
+
+            template = configuration.getTemplate("detail.ftl");
+            filename = modelName.toLowerCase()+"_detail.html";
             directory = this.getDirectory(resource, "templates."+modelName.toLowerCase());
             System.out.println(directory);
             targetFile = new File(directory, filename);
