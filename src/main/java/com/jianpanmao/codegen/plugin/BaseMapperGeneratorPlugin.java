@@ -33,6 +33,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
     private String modelExampleName;
     private String servicePkg;
     private String modelExamplePkg;
+    private String resource;
     @Override
     public void initialized(IntrospectedTable introspectedTable) {
         Properties properties = this.getProperties();
@@ -42,6 +43,9 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
 
         this.project = (String) properties.get("project");
         System.out.println(project);
+
+        this.resource = (String) properties.get("resource");
+        System.out.println(resource);
 
         this.modelPkg = introspectedTable.getBaseRecordType();
         modelExamplePkg = introspectedTable.getExampleType();
@@ -138,6 +142,46 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             template.process(root, bw);
             bw.flush();
             fw.close();
+
+            Map cols=new HashMap<>();
+            List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
+            for (IntrospectedColumn column : columns) {
+                cols.put(column.getJavaProperty(),column.getLength());
+            }
+            root.put("cols",cols);
+
+
+            template = configuration.getTemplate("list.ftl");
+            filename = modelName.toLowerCase()+"_list.html";
+            directory = this.getDirectory(resource, "templates."+modelName.toLowerCase());
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
+
+            Map addcols=new HashMap<>();
+            List<IntrospectedColumn> baseColumns = introspectedTable.getBaseColumns();
+            for (IntrospectedColumn column : baseColumns) {
+                addcols.put(column.getJavaProperty(),column.getLength());
+            }
+            root.put("addcols",addcols);
+
+
+            template = configuration.getTemplate("add.ftl");
+            filename = modelName.toLowerCase()+"_add.html";
+            directory = this.getDirectory(resource, "templates."+modelName.toLowerCase());
+            System.out.println(directory);
+            targetFile = new File(directory, filename);
+            fw = new FileWriter(targetFile);
+            bw = new BufferedWriter(fw);
+            template.process(root, bw);
+            bw.flush();
+            fw.close();
+
 
 
 
@@ -341,6 +385,8 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             String str=null;
             if(col.getJdbcTypeName().equals("VARCHAR")){
                 str = col.getJavaProperty()+"!=null and '' neq "+col.getJavaProperty();
+            }else {
+                str=col.getJavaProperty()+"!=null";
             }
             Attribute a=new Attribute("test",str);
             TextElement te=new TextElement("and "+col.getActualColumnName()+"=#{"+col.getJavaProperty()+"}");

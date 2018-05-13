@@ -22,6 +22,7 @@ public class Main {
         String pkg="com.jianpanmao.news";
         String tableName="news";
         String javaFileProject="src/main/java";
+        String resource="src/main/resources";
         Context context = new Context(ModelType.FLAT);
         context.setTargetRuntime("com.jianpanmao.codegen.introspected.MyIntrospectedTableMyBatis3Impl");
         context.setId("test");
@@ -46,6 +47,7 @@ public class Main {
         pluginConfiguration.setConfigurationType("com.jianpanmao.codegen.plugin.BaseMapperGeneratorPlugin");
         pluginConfiguration.addProperty("pkg", pkg);
         pluginConfiguration.addProperty("project",javaFileProject);
+        pluginConfiguration.addProperty("resource",resource);
         context.addPluginConfiguration(pluginConfiguration);
 
         /****************************************注锟斤拷***************************************************/

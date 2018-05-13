@@ -18,24 +18,24 @@ NewsService newsService;
 
 @RequestMapping(method = RequestMethod.GET,value = "list")
 public String list(){
-return "news/list";
+return "news/news_list";
 }
 
 @RequestMapping(method = RequestMethod.GET,value = "add")
 public String add(){
-return "news/add";
+return "news/news_add";
 }
 
 @RequestMapping(method = RequestMethod.GET,value = "edit")
 public String edit(@RequestParam("id") Integer id, Model model){
 model.addAttribute("id",id);
-return "news/edit";
+return "news/news_edit";
 }
 
 
 @RequestMapping(method = RequestMethod.GET,value = "detail")
 public String detail(@RequestParam("id") Integer id, Model model){
 model.addAttribute("id",id);
-return "news/detail";
+return "news/news_detail";
 }
 }

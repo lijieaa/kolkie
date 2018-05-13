@@ -13,7 +13,7 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
- /*$.extend($.validator.messages, {
+ $.extend($.validator.messages, {
  required: "必选字段",
  remote: "请修正该字段",
  email: "请输入正确格式的电子邮件",
@@ -31,4 +31,4 @@ $.fn.serializeObject = function () {
  range: $.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
  max: $.validator.format("请输入一个最大为 {0} 的值"),
  min: $.validator.format("请输入一个最小为 {0} 的值")
- });*/
+ });

@@ -20,16 +20,16 @@
                         <div class="widget-body">
                             <div class="widget-main">
                                 <form class="form-horizontal" id="search-form">
+<#list cols?keys as key>
                                     <div class="form-group">
-                                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">title:</label>
-
+                                        <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
                                         <div class="col-xs-12 col-sm-9">
                                             <div class="clearfix">
-                                                <input type="text" name="title" id="title" class="col-xs-12 col-sm-6" />
+                                                <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />
                                             </div>
                                         </div>
                                     </div>
-
+</#list>
 
                                     <div class="clearfix form-actions">
                                         <div class="col-md-offset-3 col-md-9">
@@ -52,7 +52,7 @@
                     <div class="clearfix">
                         <div class="pull-left tableTools-container-left">
                             <div class="btn-group">
-                                <a type="button" class="btn" th:href="@{/news/add}">创建</a>
+                                <a type="button" class="btn" th:href="@{/${modelName?lower_case}/add}">创建</a>
                                 <button type="button" class="btn btn-danger" id="batch-delete">批量删除</button>
                             </div>
                         </div>
@@ -72,8 +72,9 @@
                                         <span class="lbl"></span>
                                     </label>
                                 </th>
-                                <th>id</th>
-                                <th>title</th>
+<#list cols?keys as key>
+                                <th>${key}</th>
+</#list>
                                 <th></th>
                             </tr>
                             </thead>
@@ -124,7 +125,7 @@
 
                                     var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&order="+orderByClause;
                                     $.ajax({
-                                        "url": contextPath+"api/news/page"+param,
+                                        "url": contextPath+"api/${modelName?lower_case}/page"+param,
                                         "type": "get",
                                         dataType:"json",
                                         contentType:'application/json',
@@ -144,8 +145,9 @@
                                 },
                                 "columns": [
                                     {"data": null},
-                                    {"data": "tId"},
-                                    {"data": "title"},
+<#list cols?keys as key>
+                                    {"data": "${key}"},
+</#list>
                                     {"data": null}
                                 ],
                                 "columnDefs": [
@@ -160,8 +162,9 @@
                                         "className": "center"
 
                                     },
+<#list cols?keys as key>
                                     {
-                                        "targets": 1,
+                                        "targets": ${key_index+1},
                                         "orderable": true,
                                         "searchable": true,
                                         "render": function (data, type, row) {
@@ -169,17 +172,9 @@
                                         }
 
                                     },
+</#list>
                                     {
-                                        "targets": 2,
-                                        "orderable": true,
-                                        "searchable": true,
-                                        "render": function (data, type, row) {
-                                            return '<td>' + data + '</td>';
-                                        }
-
-                                    },
-                                    {
-                                        "targets": 3,
+                                        "targets": -1,
                                         "orderable": false,
                                         data: null,
                                         "render": function (data, type, row) {
@@ -357,7 +352,7 @@
 
                        if(result){
                            $.ajax({
-                               url: contextPath+"api/news/?id="+id,
+                               url: contextPath+"api/${modelName?lower_case}/?id="+id,
                                method: "delete",
                                success: function (data) {
                                    if(data.status==200){
@@ -409,7 +404,7 @@
                             console.log(ids);
 
                             $.ajax({
-                                url: contextPath+"api/news/batch",
+                                url: contextPath+"api/${modelName?lower_case}/batch",
                                 method : "delete" ,
                                 data : JSON.stringify(ids),
                                 contentType: "application/json",

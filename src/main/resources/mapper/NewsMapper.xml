@@ -173,7 +173,7 @@
   </delete>
   <select id="selectByDto" parameterType="com.jianpanmao.news.dto.NewsDto" resultMap="BaseResultMap">
     select <include refid="Base_Column_List" /> from news where 1=1
-    <if test="null">
+    <if test="tId!=null">
       and t_id=#{tId}
     </if>
     <if test="title!=null and '' neq title">

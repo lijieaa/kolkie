@@ -18,24 +18,24 @@ ${modelName}Service ${modelName?lower_case}Service;
 
 @RequestMapping(method = RequestMethod.GET,value = "list")
 public String list(){
-return "${modelName?lower_case}/list";
+return "${modelName?lower_case}/${modelName?lower_case}_list";
 }
 
 @RequestMapping(method = RequestMethod.GET,value = "add")
 public String add(){
-return "${modelName?lower_case}/add";
+return "${modelName?lower_case}/${modelName?lower_case}_add";
 }
 
 @RequestMapping(method = RequestMethod.GET,value = "edit")
 public String edit(@RequestParam("id") Integer id, Model model){
 model.addAttribute("id",id);
-return "${modelName?lower_case}/edit";
+return "${modelName?lower_case}/${modelName?lower_case}_edit";
 }
 
 
 @RequestMapping(method = RequestMethod.GET,value = "detail")
 public String detail(@RequestParam("id") Integer id, Model model){
 model.addAttribute("id",id);
-return "${modelName?lower_case}/detail";
+return "${modelName?lower_case}/${modelName?lower_case}_detail";
 }
 }
