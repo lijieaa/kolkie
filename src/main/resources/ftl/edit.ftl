@@ -13,7 +13,7 @@
 
     <#else>
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${key}">${key}:</label>
             <div class="col-xs-12 col-sm-9">
                 <div class="clearfix">
                     <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />

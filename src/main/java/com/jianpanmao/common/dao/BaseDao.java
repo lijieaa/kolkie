@@ -1,11 +1,12 @@
 package com.jianpanmao.common.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 import java.util.List;
 
-
+@Mapper
 public interface BaseDao<T, E, D,PK extends Serializable> {
 
     long countByExample(E example);

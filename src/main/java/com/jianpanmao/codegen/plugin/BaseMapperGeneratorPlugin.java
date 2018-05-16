@@ -229,7 +229,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
         FullyQualifiedJavaType fqjt = new FullyQualifiedJavaType("BaseDao<"
                 + introspectedTable.getBaseRecordType() + ","
                 + introspectedTable.getExampleType() + ","
-                + "com.jianpanmao.news.dto.NewsDto" + ","
+                + ""+pkg+".dto."+modelName+"Dto" + ","
                 + "java.lang.Integer" + ">");
         FullyQualifiedJavaType imp = new FullyQualifiedJavaType(
                 "com.jianpanmao.common.dao.BaseDao");
@@ -246,7 +246,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
         interfaze.addAnnotation("@Mapper");
 
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
-        interfaze.addImportedType(new FullyQualifiedJavaType("com.jianpanmao.news.dto.NewsDto"));
+        interfaze.addImportedType(new FullyQualifiedJavaType(pkg+".dto."+modelName+"Dto"));
         /**
          * 方法不需要
          */

@@ -1,5 +1,5 @@
 package com.jianpanmao.news.dto;
-import com.jianpanmao.common.utils.StringUtil;
+import java.math.BigDecimal;
 
 public class NewsDto {
 

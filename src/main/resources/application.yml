@@ -12,8 +12,8 @@ spring:
 #����.xml�ļ�·��
 mybatis:
  config-location: classpath:mybatis-config.xml
- mapper-locations: classpath:/mapper/*.xml
- type-aliases-package: com.jianpanmao
+ mapper-locations: classpath:/mapper/**/*.xml
+ type-aliases-package: com.jianpanmao.*
 
 server:
  port: 8081

@@ -1,5 +1,5 @@
 package ${pkg}.dto;
-import com.jianpanmao.common.utils.StringUtil;
+import java.math.BigDecimal;
 
 public class ${modelName}Dto {
 

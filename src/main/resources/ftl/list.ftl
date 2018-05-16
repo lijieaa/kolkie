@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <body layout:fragment="content">
     <div class="row">
@@ -24,7 +25,7 @@
     <#if (key?index_of('primaryKey'))!=-1>
         <#assign index=key?index_of('primaryKey')>
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key?substring(0,index-1)}:</label>
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${key?substring(0,index-1)}">${key?substring(0,index-1)}:</label>
             <div class="col-xs-12 col-sm-9">
                 <div class="clearfix">
                     <input type="text" name="${key?substring(0,index-1)}" id="${key?substring(0,index-1)}" class="col-xs-12 col-sm-6" />
@@ -33,7 +34,7 @@
         </div>
     <#else>
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">${key}:</label>
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="${key}">${key}:</label>
             <div class="col-xs-12 col-sm-9">
                 <div class="clearfix">
                     <input type="text" name="${key}" id="${key}" class="col-xs-12 col-sm-6" />
@@ -65,8 +66,8 @@
                     <div class="clearfix">
                         <div class="pull-left tableTools-container-left">
                             <div class="btn-group">
-                                <a type="button" class="btn" th:href="@{/${modelName?lower_case}/add}">创建</a>
-                                <button type="button" class="btn btn-danger" id="batch-delete">批量删除</button>
+                                <a type="button" class="btn" th:href="@{/${modelName?lower_case}/add}" sec:authorize="hasAuthority('${modelName?lower_case}:add')">创建</a>
+                                <button type="button" class="btn btn-danger" id="batch-delete" sec:authorize="hasAuthority('${modelName?lower_case}:delete')">批量删除</button>
                             </div>
                         </div>
                         <div class="pull-right tableTools-container"></div>
@@ -202,16 +203,28 @@
                                         "orderable": false,
                                         data: null,
                                         "render": function (data, type, row) {
-                                            return '<div class="hidden-sm hidden-xs action-buttons">' +
-                                                    '<a class="blue" href="detail/?id='+data.tId+'"><i class="ace-icon fa fa-search-plus bigger-130"></i></a>' +
-                                                    '<a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>' +
-                                                    '<a class="red delete" data-id="'+row.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>' +
-                                                    '</div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button><ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close"><li>' +
-                                                    '<a href="detail/?id='+data.tId+'" class="tooltip-info" data-rel="tooltip" title="查看"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li><li>' +
-                                                    '<a href="edit/?id='+data.tId+'" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a>' +
-                                                    '</li><li>' +
-                                                    '<a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+row.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a>' +
-                                                    '</li></ul></div></div>';
+                                            return '<div class="hidden-sm hidden-xs action-buttons">'
+                                                    [# sec:authorize="hasAuthority('${modelName?lower_case}:view')"]
+                                            + '<a class="blue" href="detail/?id='+data.tId+'"><i class="ace-icon fa fa-search-plus bigger-130"></i></a>'
+                                                    [/]
+                                            [# sec:authorize="hasAuthority('${modelName?lower_case}:edit')"]
+                                            + '<a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>'
+                                                    [/]
+                                            [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
+                                            + '<a class="red delete" data-id="'+row.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>'
+                                                    [/]
+                                            + '</div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button>'
+                                            + '<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">'
+                                                    [# sec:authorize="hasAuthority('${modelName?lower_case}:view')"]
+                                            + '<li><a href="detail/?id='+data.tId+'" class="tooltip-info" data-rel="tooltip" title="查看"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li>'
+                                                    [/]
+                                            [# sec:authorize="hasAuthority('${modelName?lower_case}:edit')"]
+                                            + '<li><a href="edit/?id='+data.tId+'" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a></li>'
+                                                    [/]
+                                            [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
+                                            + '<li><a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+row.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li>'
+                                                    [/]
+                                            +'</ul></div></div>';
                                         }
 
                                     }
@@ -356,7 +369,7 @@
                 return 'left';
             }
 
-
+            [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
             //单个删除
             $('#dynamic-table tbody').on( 'click', 'a.delete', function () {
                 var id = $(this).attr('data-id');
@@ -392,8 +405,8 @@
                 });
 
             } );
-
-
+            [/]
+            [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
             $("#batch-delete").on("click", function () {
 
                 var rows = myTable.rows('.selected').data();
@@ -446,7 +459,7 @@
                     }
                 });
             })
-
+                    [/]
 
 
             $("#search").on("click",function(e){

@@ -8,7 +8,7 @@ import ${pkg}.entity.${modelName};
 import ${pkg}.service.${modelName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,35 +20,37 @@ public class ${modelName}RestController {
 @Autowired
 ${modelName}Service ${modelName?lower_case}Service;
 
+@PreAuthorize("hasAuthority('${modelName?lower_case}:add')")
 @RequestMapping(method = RequestMethod.POST)
 public Integer post(@Valid @RequestBody ${modelName} entity){
 return ${modelName?lower_case}Service.add(entity);
 }
 
+@PreAuthorize("hasAuthority('${modelName?lower_case}:delete')")
 @RequestMapping(method = RequestMethod.DELETE)
 public Integer delete(@RequestParam("id") Integer id){
 return ${modelName?lower_case}Service.remove(id);
 }
 
-
+@PreAuthorize("hasAuthority('${modelName?lower_case}:delete')")
 @RequestMapping(method = RequestMethod.DELETE,value = "batch")
 public Integer batchDelete(@RequestBody Integer[] ids){
 return ${modelName?lower_case}Service.removeBatch(ids);
 }
 
-
+@PreAuthorize("hasAuthority('${modelName?lower_case}:edit')")
 @RequestMapping(method = RequestMethod.PUT)
 public Integer put(@RequestBody ${modelName} entity){
 return ${modelName?lower_case}Service.update(entity);
 }
 
-
+@PreAuthorize("hasAuthority('${modelName?lower_case}:view')")
 @RequestMapping(method = RequestMethod.GET)
 public ${modelName} get(@RequestParam("id") Integer id){
 return ${modelName?lower_case}Service.get(id);
 }
 
-
+@PreAuthorize("hasAuthority('${modelName?lower_case}:view')")
 @RequestMapping(method = RequestMethod.GET,value = "page")
 public Object page(@RequestParam(value = "pageNum",defaultValue = "1",required = true) Integer pageNum,
 @RequestParam(value = "pageSize",defaultValue = "10",required = true) Integer pageSize,

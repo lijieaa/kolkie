@@ -8,7 +8,7 @@ import com.jianpanmao.news.entity.News;
 import com.jianpanmao.news.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -20,29 +20,31 @@ public class NewsRestController {
 @Autowired
 NewsService newsService;
 
+@PreAuthorize("hasAuthority('news:add')")
 @RequestMapping(method = RequestMethod.POST)
 public Integer post(@Valid @RequestBody News entity){
 return newsService.add(entity);
 }
 
+@PreAuthorize("hasAuthority('news:delete')")
 @RequestMapping(method = RequestMethod.DELETE)
 public Integer delete(@RequestParam("id") Integer id){
 return newsService.remove(id);
 }
 
-
+@PreAuthorize("hasAuthority('news:delete')")
 @RequestMapping(method = RequestMethod.DELETE,value = "batch")
 public Integer batchDelete(@RequestBody Integer[] ids){
 return newsService.removeBatch(ids);
 }
 
-
+@PreAuthorize("hasAuthority('news:edit')")
 @RequestMapping(method = RequestMethod.PUT)
 public Integer put(@RequestBody News entity){
 return newsService.update(entity);
 }
 
-
+@PreAuthorize("hasAuthority('news:view')")
 @RequestMapping(method = RequestMethod.GET)
 public News get(@RequestParam("id") Integer id){
 return newsService.get(id);
