@@ -8,6 +8,10 @@ spring:
  thymeleaf:
   cache: false
   mode: LEGACYHTML5
+ messages:
+   basename: i18n/messages
+   cache-seconds: 3600
+   encoding: UTF-8
 
 #����.xml�ļ�·��
 mybatis:
