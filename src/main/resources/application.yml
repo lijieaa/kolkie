@@ -10,6 +10,10 @@ spring:
  jackson:
   time: GMT+8
   date-format: yyyy-MM-dd HH:mm:ss
+ messages:
+   basename: i18n/messages
+   cache-seconds: 3600
+   encoding: UTF-8
 
 mybatis:
  config-location: classpath:mybatis-config.xml
