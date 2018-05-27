@@ -66,6 +66,7 @@
     </style>
 </head>
 <body layout:fragment="content">
+
 <div class="row">
     <div class="col-xs-12">
         <div class="row">
@@ -90,22 +91,7 @@
                             <th>操作</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr th:each="menu : ${menus}" th:attr="data-tt-id=${menu.menuId},data-tt-parent-id=${menu.menuParentId}">
-                            <td th:text="${menu.menuName}"></td>
-                            <td th:text="${menu.menuUrl}"></td>
-                            <td th:text="${menu.menuPrmission}"></td>
-                            <td>
-                                <span th:class="${menu.menuDisplay}?'ace-icon fa fa-circle green':'ace-icon fa fa-circle red'"></span>
-                            </td>
-                            <td>
-                                <a class="green" th:href="@{'edit/?id='+${menu.menuId}}"><i class="ace-icon fa fa-pencil bigger-130"></i></a>
-                                <a class="red delete" th:attr="data=${menu.menuId}"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>
-                                <a href="#">显示</a>
-                                <a href="#">隐藏</a>
-                            </td>
-                        </tr>
-                        </tbody>
+                        <tbody th:include="~{fragments/submenu ::row(${menus})}"/>
                     </table>
                 </div>
             </div>
@@ -115,16 +101,36 @@
 <script th:src="@{/plugins/jquery-treetable/jquery.treetable.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     jQuery(function ($) {
-        $("#example-basic-static").treetable({ expandable: true });
 
-        $("a.delete").on("click",function (e) {
-            var id=$(this).attr("data");
+        $("#example-basic-static").treetable({expandable: true});
+
+        /*$.ajax({
+         url: contextPath+"api/sysmenu/list",
+         method: "get",
+         success: function (data) {
+         if(data.status==200){
+         console.log(data.content);
+         var rows = data.content;
+         for(var i=0;i<rows.length;i++){
+         var tr=""
+         }
+
+         }
+         },
+         error: function (data) {
+         //console.log(data);
+         }
+         });*/
+
+
+        $("a.delete").on("click", function (e) {
+            var id = $(this).attr("data");
             $.ajax({
-                url: contextPath+"api/sysmenu/?id="+id,
+                url: contextPath + "api/sysmenu/?id=" + id,
                 method: "delete",
                 success: function (data) {
-                    if(data.status==200){
-                        location.href=contextPath+"sysmenu/list";
+                    if (data.status == 200) {
+                        location.href = contextPath + "sysmenu/list";
                     }
                 },
                 error: function (data) {

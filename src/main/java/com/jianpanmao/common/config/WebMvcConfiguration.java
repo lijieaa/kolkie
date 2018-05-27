@@ -8,9 +8,9 @@ import java.util.List;
 
 //@Configuration
 public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
-    @Override
+   /* @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new OrderParserResolver());
         super.addArgumentResolvers(argumentResolvers);
-    }
+    }*/
 }

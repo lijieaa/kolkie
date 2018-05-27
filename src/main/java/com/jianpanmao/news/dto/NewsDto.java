@@ -1,9 +1,19 @@
 package com.jianpanmao.news.dto;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class NewsDto {
 
 
+private String od ;
+
+public String getOd() {
+return od;
+}
+
+public void setOd(String od) {
+this.od = od;
+}
 private String title ;
 
 public String getTitle() {
@@ -21,14 +31,5 @@ return tId;
 
 public void settId(Integer tId) {
 this.tId = tId;
-}
-private String order ;
-
-public String getOrder() {
-return order;
-}
-
-public void setOrder(String order) {
-this.order = order;
 }
 }

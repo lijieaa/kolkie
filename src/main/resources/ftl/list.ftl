@@ -3,6 +3,15 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <body layout:fragment="content">
+<div class="page-header">
+    <h1>
+        Tables
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Static &amp; Dynamic Tables
+        </small>
+    </h1>
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="row">
@@ -125,7 +134,6 @@
                                 "serverSide": true,
                                 'searching': false,
                                 "ajax": function (data, callback, settings) {
-                                    console.log("----------------", data);
                                     var formData = $("#search-form").serialize();
                                     console.log(formData);
                                     var pageNum=data.start/data.length+1;
@@ -143,7 +151,7 @@
                                     }
                                     orderByClause = orderByClause.substr(0,orderByClause.lastIndexOf(","));
 
-                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&order="+orderByClause;
+                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&od="+orderByClause;
                                     $.ajax({
                                         "url": contextPath+"api/${modelName?lower_case}/page"+param,
                                         "type": "get",
@@ -205,24 +213,24 @@
                                         "render": function (data, type, row) {
                                             return '<div class="hidden-sm hidden-xs action-buttons">'
                                                     [# sec:authorize="hasAuthority('${modelName?lower_case}:view')"]
-                                            + '<a class="blue" href="detail/?id='+data.tId+'"><i class="ace-icon fa fa-search-plus bigger-130"></i></a>'
+                                            + '<a class="blue" href="detail/?id='+data.${primaryKey}+'"><i class="ace-icon fa fa-search-plus bigger-130"></i></a>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('${modelName?lower_case}:edit')"]
-                                            + '<a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>'
+                                            + '<a class="green" href="edit/?id='+data.${primaryKey}+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
-                                            + '<a class="red delete" data-id="'+row.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>'
+                                            + '<a class="red delete" data-id="'+data.${primaryKey}+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>'
                                                     [/]
                                             + '</div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button>'
                                             + '<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">'
                                                     [# sec:authorize="hasAuthority('${modelName?lower_case}:view')"]
-                                            + '<li><a href="detail/?id='+data.tId+'" class="tooltip-info" data-rel="tooltip" title="查看"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li>'
+                                            + '<li><a href="detail/?id='+data.${primaryKey}+'" class="tooltip-info" data-rel="tooltip" title="查看"><span class="blue"><i class="ace-icon fa fa-search-plus bigger-120"></i></span></a></li>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('${modelName?lower_case}:edit')"]
-                                            + '<li><a href="edit/?id='+data.tId+'" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a></li>'
+                                            + '<li><a href="edit/?id='+data.${primaryKey}+'" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a></li>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('${modelName?lower_case}:delete')"]
-                                            + '<li><a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+row.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li>'
+                                            + '<li><a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+data.${primaryKey}+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li>'
                                                     [/]
                                             +'</ul></div></div>';
                                         }
@@ -435,7 +443,7 @@
                             var ids=[];
 
                             for(var i=0;i<rows.length;i++){
-                                ids.push(rows[i].tId);
+                                ids.push(rows[i].${primaryKey});
                             }
 
                             console.log(ids);

@@ -1,11 +1,10 @@
 package com.jianpanmao.news.entity;
 
-import com.jianpanmao.common.entity.BaseEntity;
 import java.io.Serializable;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-public class News extends BaseEntity implements Serializable {
+public class News implements Serializable {
     //
     private Integer tId;
 
@@ -15,7 +14,7 @@ public class News extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    String order;
+    String od;
 
     public Integer gettId() {
         return tId;

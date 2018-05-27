@@ -91,7 +91,7 @@ public class CodeGenController {
         JavaModelGeneratorConfiguration javaModelGeneratorConfiguration = new JavaModelGeneratorConfiguration();
         javaModelGeneratorConfiguration.setTargetPackage(pkg+".entity");
         javaModelGeneratorConfiguration.setTargetProject(javaFileProject);
-        javaModelGeneratorConfiguration.addProperty("rootClass","com.jianpanmao.common.entity.BaseEntity");
+        //javaModelGeneratorConfiguration.addProperty("rootClass","com.jianpanmao.common.entity.BaseEntity");
         javaModelGeneratorConfiguration.addProperty("enableSubPackages", "false");
         javaModelGeneratorConfiguration.addProperty("trimStrings", "true");
         javaModelGeneratorConfiguration.addProperty("addRemarkComments", "true");

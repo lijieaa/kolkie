@@ -55,7 +55,7 @@ public class ModifyParametersFilter extends OncePerRequestFilter {
             else {
                 int length = results.length;
                 for (int i = 0; i < length; i++) {
-                    if(name.equals("order")){
+                    if(name.equals("od")){
                         results[i] = StringUtil.orderByStringProcess(results[i]);
                     }
                 }

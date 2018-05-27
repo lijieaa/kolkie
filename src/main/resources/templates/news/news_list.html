@@ -3,6 +3,15 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <body layout:fragment="content">
+<div class="page-header">
+    <h1>
+        Tables
+        <small>
+            <i class="ace-icon fa fa-angle-double-right"></i>
+            Static &amp; Dynamic Tables
+        </small>
+    </h1>
+</div>
     <div class="row">
         <div class="col-xs-12">
             <div class="row">
@@ -22,7 +31,7 @@
                             <div class="widget-main">
                                 <form class="form-horizontal" id="search-form">
         <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="title">tId:</label>
+            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="tId">tId:</label>
             <div class="col-xs-12 col-sm-9">
                 <div class="clearfix">
                     <input type="text" name="tId" id="tId" class="col-xs-12 col-sm-6" />
@@ -115,7 +124,6 @@
                                 "serverSide": true,
                                 'searching': false,
                                 "ajax": function (data, callback, settings) {
-                                    console.log("----------------", data);
                                     var formData = $("#search-form").serialize();
                                     console.log(formData);
                                     var pageNum=data.start/data.length+1;
@@ -133,7 +141,7 @@
                                     }
                                     orderByClause = orderByClause.substr(0,orderByClause.lastIndexOf(","));
 
-                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&order="+orderByClause;
+                                    var param="?pageNum="+pageNum+"&pageSize="+pageSize+"&"+formData+"&draw="+draw+"&od="+orderByClause;
                                     $.ajax({
                                         "url": contextPath+"api/news/page"+param,
                                         "type": "get",
@@ -202,7 +210,7 @@
                                             + '<a class="green" href="edit/?id='+data.tId+'"><i class="ace-icon fa fa-pencil bigger-130"></i></a>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('news:delete')"]
-                                            + '<a class="red delete" data-id="'+row.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>'
+                                            + '<a class="red delete" data-id="'+data.tId+'"><i class="ace-icon fa fa-trash-o bigger-130"></i></a>'
                                                     [/]
                                             + '</div><div class="hidden-md hidden-lg"><div class="inline pos-rel"><button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown" data-position="auto"><i class="ace-icon fa fa-caret-down icon-only bigger-120"></i></button>'
                                             + '<ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">'
@@ -213,7 +221,7 @@
                                             + '<li><a href="edit/?id='+data.tId+'" class="tooltip-success" data-rel="tooltip" title="编辑"><span class="green"><i class="ace-icon fa fa-pencil-square-o bigger-120"></i></span></a></li>'
                                                     [/]
                                             [# sec:authorize="hasAuthority('news:delete')"]
-                                            + '<li><a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+row.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li>'
+                                            + '<li><a class="tooltip-error delete" data-rel="tooltip" title="删除" data-id="'+data.tId+'"><span class="red"><i class="ace-icon fa fa-trash-o bigger-120"></i></span></a></li>'
                                                     [/]
                                             +'</ul></div></div>';
                                         }

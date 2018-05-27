@@ -53,7 +53,7 @@ public class SysMenuRestController {
 
 
     @PreAuthorize("hasAuthority('sysmenu:view')")
-    @RequestMapping(method = RequestMethod.GET,value = "list")
+    @RequestMapping(method = RequestMethod.GET, value = "list")
     public List<SysMenu> getAll() {
         return sysmenuService.getAll(null);
     }

@@ -179,8 +179,8 @@
     <if test="title!=null and '' neq title">
       and title=#{title}
     </if>
-    <if test="order!=null and order neq ''">
-      order by ${order}
+    <if test="od!=null and od neq ''">
+      order by ${od}
     </if>
   </select>
 </mapper>

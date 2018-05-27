@@ -50,7 +50,7 @@ public News get(@RequestParam("id") Integer id){
 return newsService.get(id);
 }
 
-
+@PreAuthorize("hasAuthority('news:view')")
 @RequestMapping(method = RequestMethod.GET,value = "page")
 public Object page(@RequestParam(value = "pageNum",defaultValue = "1",required = true) Integer pageNum,
 @RequestParam(value = "pageSize",defaultValue = "10",required = true) Integer pageSize,

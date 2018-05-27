@@ -11,7 +11,11 @@
     <result column="menu_display" jdbcType="TINYINT" property="menuDisplay" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="path" jdbcType="VARCHAR" property="path" />
+    <collection property="children" ofType="com.jianpanmao.sys.entity.SysMenu" select="findMenuByParentId" column="menu_id"/>
   </resultMap>
+  <select id="findMenuByParentId" resultMap="BaseResultMap">
+             select * from sys_menu where menu_parent_id=#{0}
+  </select>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -261,10 +265,10 @@
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
   <select id="selectAll" parameterType="com.jianpanmao.sys.entity.SysMenu" resultMap="BaseResultMap">
-    select * from sys_menu
+    select * from sys_menu WHERE  menu_parent_id=0
   </select>
   <delete id="deleteBatch" parameterType="java.util.ArrayList">
-    delete from news
+    delete from sys_menu
     where menu_id in
     <foreach collection="array" index="index" item="item" open="(" separator="," close=")">
               #{item}

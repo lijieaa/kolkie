@@ -153,6 +153,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
                 for (IntrospectedColumn primaryKeyColumn : primaryKeyColumns) {
                     if (column.getActualColumnName().equals(primaryKeyColumn.getActualColumnName())){
                         cols.put(column.getJavaProperty()+"_primaryKey",column.getLength());
+                        root.put("primaryKey",column.getJavaProperty());
                     }else{
                         cols.put(column.getJavaProperty(),column.getLength());
                     }
@@ -246,7 +247,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
         interfaze.addAnnotation("@Mapper");
 
         interfaze.addImportedType(new FullyQualifiedJavaType("org.apache.ibatis.annotations.Mapper"));
-        interfaze.addImportedType(new FullyQualifiedJavaType(pkg+".dto."+modelName+"Dto"));
+        interfaze.addImportedType(new FullyQualifiedJavaType(pkg + ".dto." + modelName + "Dto"));
         /**
          * 方法不需要
          */
@@ -277,7 +278,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
 
 
         List<Field> fields = topLevelClass.getFields();
-        fields.add(new Field("order",new FullyQualifiedJavaType("java.lang.String")));
+        fields.add(new Field("od",new FullyQualifiedJavaType("java.lang.String")));
         Map<String,String> types = new HashMap<>();
 
         for (Field field : fields) {
@@ -378,7 +379,7 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
         List<IntrospectedColumn> primaryKeyColumns = introspectedTable.getPrimaryKeyColumns();
         IntrospectedColumn introspectedColumn = primaryKeyColumns.get(0);
         String actualColumnName = introspectedColumn.getActualColumnName();
-        String batchDeleteSql = "delete from news\n" +
+        String batchDeleteSql = "delete from "+introspectedTable.getTableConfiguration().getTableName()+"\n" +
                 "    where " + actualColumnName + " in\n" +
                 "    <foreach collection=\"array\" index=\"index\" item=\"item\" open=\"(\" separator=\",\" close=\")\">\n" +
                 "              #{item}\n" +
@@ -413,6 +414,8 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
             String str=null;
             if(col.getJdbcTypeName().equals("VARCHAR")){
                 str = col.getJavaProperty()+"!=null and '' neq "+col.getJavaProperty();
+            }else if((col.getJdbcTypeName().equals("LONGVARCHAR"))){
+                str = col.getJavaProperty()+"!=null and '' neq "+col.getJavaProperty();
             }else {
                 str=col.getJavaProperty()+"!=null";
             }
@@ -424,9 +427,9 @@ public class BaseMapperGeneratorPlugin extends PluginAdapter {
         }
 
         XmlElement e=new XmlElement("if");
-        Attribute a=new Attribute("test","order!=null and order neq ''");
+        Attribute a=new Attribute("test","od!=null and od neq ''");
         e.addAttribute(a);
-        TextElement te=new TextElement("order by ${order}");
+        TextElement te=new TextElement("order by ${od}");
         e.addElement(te);
         selectByDto.addElement(e);
 

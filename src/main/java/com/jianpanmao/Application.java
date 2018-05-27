@@ -6,7 +6,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @SpringBootApplication
@@ -29,5 +34,26 @@ public class Application {
         FilterRegistrationBean registration = new FilterRegistrationBean(new ModifyParametersFilter());
         registration.addUrlPatterns("/*");
         return registration;
+    }
+
+    @Bean
+    public Converter<String, Date> addNewConvert() {
+        return new Converter<String, Date>() {
+            @Override
+            public Date convert(String source) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = null;
+                try {
+                    if(source.equals("")){
+                        return null;
+                    }else{
+                        date = sdf.parse((String) source);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return date;
+            }
+        };
     }
 }
